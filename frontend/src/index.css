@@ -1,0 +1,28 @@
+@import "tailwindcss";
+
+:root {
+  --primaryColor: #6c63ff;
+  --secondaryColor: #08060d;
+
+  --bg: #f4f5f7;
+  --border: #e5e7eb;
+
+  --text: #1a1a2e;
+  --textSecondary: #6b7280;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  background-color: white;
+  margin: 0;
+  font-family: "IBM Plex Sans Arabic", sans-serif;
+  background: var(--bg);
+}
+a {
+  text-decoration: none;
+}
+
+h2,
+h3 {
+}

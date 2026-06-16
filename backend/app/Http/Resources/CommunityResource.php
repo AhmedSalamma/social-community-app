@@ -1,0 +1,22 @@
+<?php
+
+namespace App\Http\Resources;
+
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class CommunityResource extends JsonResource
+{
+    public function toArray(Request $request): array
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'desc' => $this->desc,
+            'image' => $this->image,
+            'user_id' => $this->user_id,
+            'posts_count' => $this->whenCounted('posts'),
+            'created_at' => $this->created_at?->toDateTimeString(),
+        ];
+    }
+}
