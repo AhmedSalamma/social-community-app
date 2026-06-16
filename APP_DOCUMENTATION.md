@@ -32,21 +32,6 @@ Vail is a web application built with a Laravel backend and a React frontend. It 
 - Settings navigation from the profile page
 - Backend support for storing profile images and returning public URLs
 
-## ميزات التطبيق (بالعربية)
-
-- تسجيل مستخدم جديد مع اسم مستخدم (`username`)، بريد إلكتروني، وتأكيد كلمة المرور
-- تسجيل الدخول مع إدارة التوكن (Tokens)
-- جلب بيانات الملف الشخصي للمستخدم المصادق عليه
-- صفحة الإعدادات لتحديث بيانات المستخدم، تشمل:
-  - الاسم
-  - اسم المستخدم
-  - السيرة الذاتية
-  - رفع صورة الملف الشخصي
-  - تغيير كلمة المرور مع تأكيد
-- زر تنقّل إلى صفحة الإعدادات من صفحة الملف الشخصي
-- دعم في الـ backend لتخزين صور المستخدم وإرجاع رابط عام للصورة
-
-
 ## How to Run
 
 ### Backend
