@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import useCommunity from "../../hooks/useCommunity";
-import Post from "../post/post";
+import Post from "../post/Post";
 import { useParams } from "react-router-dom";
 import { ThreeDots } from "react-loader-spinner";
 
