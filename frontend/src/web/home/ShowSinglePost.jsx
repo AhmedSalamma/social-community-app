@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import postsApi from "../../api/post";
 import Post from "../post/post";
 import usePosts from "../../hooks/usePosts";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function ShowSinglePost() {
   const { id } = useParams();
@@ -16,8 +17,17 @@ export default function ShowSinglePost() {
 
   if (loading) {
     return (
-      <div className="mt-6 p-4 bg-white rounded-xl shadow-sm text-slate-600">
-        جاري تحميل المنشور...
+      <div className="flex justify-center items-center min-h-screen">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
       </div>
     );
   }
