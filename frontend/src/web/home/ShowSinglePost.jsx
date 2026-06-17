@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import postsApi from "../../api/post";
-import Post from "../post/post";
+import Post from "../post/Post";
 import usePosts from "../../hooks/usePosts";
 import { ThreeDots } from "react-loader-spinner";
 
