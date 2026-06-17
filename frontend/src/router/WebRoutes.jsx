@@ -18,10 +18,18 @@ import ShowSinglePost from "../web/home/ShowSinglePost";
 import CreateCommunities from "../web/Communites/CreateCommunities";
 import Communities from "../web/Communites/Communities";
 import CommunityPosts from "../web/Community/CommunityPosts";
+import ProtectedRoute from "./ProtectedRoute";
 export default function WebRoutes() {
   return (
     <Routes>
-      <Route path="login" element={<Login />} />
+      <Route
+        path="login"
+        element={
+          <ProtectedRoute>
+            <Login />
+          </ProtectedRoute>
+        }
+      />
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="post/:id" element={<ShowSinglePost />} />{" "}
