@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import postsApi from "../../api/post";
-import Post from "../post/post";
 import usePosts from "../../hooks/usePosts";
 import { useSelector } from "react-redux";
+import Post from "../post/Post";
 
 export default function ProfilePosts() {
   const { getUserPosts, singlePost, loading, errors } = usePosts();

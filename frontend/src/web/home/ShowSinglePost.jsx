@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import postsApi from "../../api/post";
+import postsApi from "../../api/Post";
 import Post from "../post/post";
 import usePosts from "../../hooks/usePosts";
 

@@ -3,9 +3,9 @@ import { NavLink } from "react-router-dom";
 
 import usePosts from "../../hooks/usePosts";
 import { useSelector } from "react-redux";
-import Post from "../post/post";
 import ShowMoreButton from "../components/ShowMoreButton";
-
+import { Oval, TailSpin, ThreeDots } from "react-loader-spinner";
+import Post from "../post/Post";
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -25,18 +25,23 @@ export default function Home() {
           </NavLink>
         </div>
 
-        <NavLink to="/about" className="text-primary text-text hover:underline">
+        <NavLink to="" className="text-primary text-text hover:underline">
           الأكثر تفاعلاً
-        </NavLink>
-
-        <NavLink to="/about" className="text-primary text-text hover:underline">
-          من المجتمعات
         </NavLink>
       </div>
 
       {loading && (
-        <div className="mt-6 p-4 bg-white rounded-xl shadow-sm text-slate-600">
-          جاري تحميل المنشورات...
+        <div className="flex justify-center items-center min-h-screen">
+          <ThreeDots
+            visible={true}
+            height="80"
+            width="80"
+            color="#5856d6"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
         </div>
       )}
 

@@ -1,9 +1,33 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiImage } from "react-icons/fi";
-import { NavLink, Outlet } from "react-router-dom";
-import CreatePost from "../components/CreatePost";
+import { NavLink, Outlet, useParams } from "react-router-dom";
+import PostForm from "../components/PostForm";
+import useCommunity from "../../hooks/useCommunity";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Community() {
+  const { community, getCommunity, loading } = useCommunity();
+  const { id } = useParams();
+  useEffect(() => {
+    getCommunity(id);
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
   const navClass = ({ isActive }) =>
     `pb-3 transition ${
       isActive
@@ -27,19 +51,25 @@ export default function Community() {
       <div className="relative -mt-10 mx-auto w-[95%] md:w-[80%] bg-white rounded-xl shadow-md p-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
           <img
-            src="https://i.pravatar.cc/100"
+            src={community?.community.image || "https://i.pravatar.cc/100"}
             alt="community"
             className="w-16 h-16 rounded-full border-2 border-white shadow"
           />
 
           <div>
-            <h3 className="text-lg font-semibold">العوالم التقنية</h3>
+            <h3 className="text-lg font-semibold">
+              {community?.community.name || "Community Name"}
+            </h3>
 
             <div className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-              <span>12K عضو</span>
-              <span className="w-1 h-1 bg-gray-400 rounded-full"></span>
-              <span>مجتمع تقني</span>
+              <span>
+                {new Date(
+                  community?.community.created_at || "Created at",
+                ).toLocaleDateString() || "Created at"}
+              </span>
+              <span>{community?.community.posts_count || 0} منشور </span>
             </div>
+            <p>{community?.community.desc || "Community description"}</p>
           </div>
         </div>
 
@@ -49,7 +79,7 @@ export default function Community() {
       </div>
 
       {/* Write Post */}
-      <CreatePost />
+      <PostForm />
 
       {/* Navigation */}
       <div className="flex items-center gap-8 bg-white shadow-sm rounded-xl mt-4 p-3">

@@ -6,9 +6,7 @@ import Home from "../web/home/Home";
 
 import Community from "../web/Community/Community";
 import Members from "../web/components/Members";
-// import PostCard from "../web/components/PostCard";
 import Settings from "../web/settings/Settings";
-import CreatePost from "../web/components/CreatePost";
 import CreatePostes from "../web/CreatePost/CreatePostes";
 import Profile from "../web/profile/Profile";
 import Chat from "../web/chat/Chat";
@@ -19,6 +17,7 @@ import ProfilePosts from "../web/profile/ProfilePosts";
 import ShowSinglePost from "../web/home/ShowSinglePost";
 import CreateCommunities from "../web/Communites/CreateCommunities";
 import Communities from "../web/Communites/Communities";
+import CommunityPosts from "../web/Community/CommunityPosts";
 export default function WebRoutes() {
   return (
     <Routes>
@@ -36,8 +35,8 @@ export default function WebRoutes() {
           <Route path="saves" element={<Saves />} />
         </Route>
         <Route path="settings" element={<Settings />} />
-        <Route path="community" element={<Community />}>
-          {/* <Route index element={<PostCard />} /> */}
+        <Route path="community/:id" element={<Community />}>
+          <Route index element={<CommunityPosts />} />
           <Route path="members" element={<Members />} />
         </Route>
       </Route>

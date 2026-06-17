@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1\web;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommunityRequest;
 use App\Http\Resources\CommunityResource;
+use App\Http\Resources\PostResource;
 use App\Models\Community;
 use App\Traits\ResponseTrait;
 
@@ -52,5 +53,18 @@ class CommunityController extends Controller
             'تم إنشاء المجتمع بنجاح',
             201
         );
+    }
+
+   public function show(Community $community)
+   {
+        $posts = $community->posts()
+            ->with(['user', 'likes', 'comments', 'shares'])
+            ->latest()
+            ->paginate(8);
+
+        return $this->respondSuccess([
+            'community' =>  CommunityResource::make($community),
+            'posts' => PostResource::collection($posts),
+        ], 'تم جلب بيانات المجتمع بنجاح', 200);
     }
 }

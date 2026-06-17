@@ -11,11 +11,7 @@ const postsApi = {
     return api.get("posts/user");
   },
   add: (data) => {
-    return api.post("posts/add", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    return api.post("posts/add", data);
   },
 };
 

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { FiImage, FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router-dom";
-import CreatePost from "../components/CreatePost";
 import useUser from "../../hooks/useUser";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function Profile() {
   const { user, loading, errors, getProfile } = useUser();
@@ -20,8 +20,17 @@ export default function Profile() {
 
   if (loading) {
     return (
-      <div className="p-4 bg-white rounded-xl shadow-sm text-slate-600">
-        جاري تحميل بيانات المستخدم...
+      <div className="flex justify-center items-center min-h-screen">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
       </div>
     );
   }

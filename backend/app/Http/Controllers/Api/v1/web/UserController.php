@@ -26,7 +26,7 @@ class UserController extends Controller
     }
     public function update(UserRequest $request)
     {
-        $user = $request->user();
+        $user = Auth::user();
         $data = $request->validated();
 
         if ($request->hasFile('image')) {

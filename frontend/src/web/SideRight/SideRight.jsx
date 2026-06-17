@@ -23,15 +23,17 @@ export default function SideRight() {
   };
 
   const baseClass =
-    "flex items-center p-4 gap-6 text-xl font-light transition-all duration-200";
+    "flex items-center w-full p-4 gap-6 text-xl font-light transition-all duration-200 hover:bg-violet-50";
 
   const activeClass = ({ isActive }) =>
-    isActive
-      ? `${baseClass} text-violet-500 border-r-4 border-violet-500 bg-violet-100`
-      : `${baseClass} text-gray-500 hover:bg-violet-50`;
+    `${baseClass} ${
+      isActive
+        ? "text-violet-500 border-r-4 border-violet-500 bg-violet-100"
+        : "text-gray-500"
+    }`;
 
   const communityClass = ({ isActive }) =>
-    `flex items-center gap-3 px-3 py-2 rounded-md transition-all duration-200 ${
+    `flex items-center gap-3 px-3 py-2 flex-1 transition-all duration-200 ${
       isActive
         ? "text-violet-500 bg-violet-100"
         : "text-gray-500 hover:bg-violet-50"
@@ -41,15 +43,21 @@ export default function SideRight() {
     <div>
       {/* Create Post */}
       <div className="my-4 space-y-3">
-        <button className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-3xl bg-violet-500 hover:bg-violet-600 text-white cursor-pointer transition">
+        <Link
+          to="create"
+          className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-3xl bg-violet-500 hover:bg-violet-600 text-white transition"
+        >
           <FiPlus size={18} />
-          <Link to="create"> إنشاء منشور</Link>
-        </button>
+          إنشاء منشور
+        </Link>
 
-        <button className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-sm border border-violet-500 text-violet-600 hover:bg-violet-50 cursor-pointer transition">
+        <Link
+          to="communities/create"
+          className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-sm border border-violet-500 text-violet-600 hover:bg-violet-50 transition"
+        >
           <FiUsers size={18} />
-          <Link to="communities/create"> إنشاء مجتمع</Link>
-        </button>
+          إنشاء مجتمع
+        </Link>
       </div>
 
       {/* Menu */}
@@ -91,11 +99,11 @@ export default function SideRight() {
       <div>
         <h2 className="text-md font-medium mb-2 mt-6">مجتمعاتي</h2>
 
-        <ul className="space-y-2">
+        <ul className="space-y-2 w-full">
           {myCommunities.map((community) => (
             <li
-              className="flex gap-1.5 justify-between items-center"
               key={community.id}
+              className="flex items-center rounded-md overflow-hidden"
             >
               <NavLink
                 to={`/community/${community.id}`}
@@ -112,12 +120,11 @@ export default function SideRight() {
                     {initials(community.name)}
                   </span>
                 )}
-
                 {community.name}
+                <span className="text-xs text-gray-400 px-2 shrink-0">
+                  {community.posts_count} منشور
+                </span>
               </NavLink>
-              <span className="text-xs text-gray-400 ml-10">
-                {community.posts_count} منشور
-              </span>
             </li>
           ))}
         </ul>

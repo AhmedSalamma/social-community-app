@@ -40,9 +40,10 @@ Route::controller(CommunityController::class)->middleware('auth:sanctum')->group
     Route::get('communities', 'index');
     Route::get('communities/user', 'myCommunities');
     Route::post('communities/add', 'store');
+    Route::get('communities/{community}', 'show');
 });
 
 Route::controller(UserController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('user/profile', 'profile');
-    Route::put('user/profile', 'update');
+    Route::post('user/profile', 'update');
 });

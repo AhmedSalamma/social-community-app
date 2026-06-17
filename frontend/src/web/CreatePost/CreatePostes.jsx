@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import CreatePost from "../components/CreatePost";
 import usePosts from "../../hooks/usePosts";
+import PostForm from "../components/PostForm";
 import useCommunities from "../../hooks/useCommunities";
 import { toast } from "react-toastify";
 import { Link } from "react-router-dom";
@@ -103,7 +103,8 @@ export default function CreatePostes() {
           }
           className="w-full mt-2 mb-6 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
         />
-        <CreatePost
+        <PostForm
+          loading={loading}
           textarea={post.content}
           setTextarea={(e) =>
             setPost((prev) => ({

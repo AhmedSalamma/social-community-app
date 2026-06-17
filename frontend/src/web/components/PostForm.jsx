@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { FiImage } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
 
-export default function CreatePost({ textarea, setTextarea, image }) {
+export default function PostForm({ textarea, setTextarea, image, loading }) {
   const [openWrite, setOpenWrite] = useState(false);
   const uplodeImage = useRef(null);
 
@@ -40,7 +40,7 @@ export default function CreatePost({ textarea, setTextarea, image }) {
               type="submit"
               className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition"
             >
-              نشر
+              {loading ? "جارٍ النشر..." : "نشر"}
             </button>
           </div>
         )}

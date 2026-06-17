@@ -7,12 +7,11 @@ const communitiesApi = {
   mine: (id) => {
     return api.get(`communities/user?page=${id}`);
   },
+  show: (id) => {
+    return api.get(`communities/${id}`);
+  },
   add: (data) => {
-    return api.post("communities/add", data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    return api.post("communities/add", data);
   },
 };
 
