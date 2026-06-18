@@ -10,7 +10,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { getPosts, loading, errors, meta, hasMore } = usePosts();
-  const allposts = useSelector((state) => state.postReducer);
+  const allposts = useSelector((state) => state.postReducer.posts);
 
   useEffect(() => {
     getPosts(currentPage);
@@ -51,15 +51,15 @@ export default function Home() {
         </div>
       )}
 
-      {!loading && !errors && allposts.posts.length === 0 && (
+      {!loading && !errors && allposts.length === 0 && (
         <div className="mt-6 p-4 bg-white rounded-xl shadow-sm text-slate-600">
           لا توجد منشورات حالياً.
         </div>
       )}
 
-      {!loading && !errors && allposts.posts.length > 0 && (
+      {!loading && !errors && allposts.length > 0 && (
         <div className="mt-6 space-y-6">
-          {allposts.posts.map((post) => (
+          {allposts.map((post) => (
             <Post key={post.id} post={post} />
           ))}
           <ShowMoreButton

@@ -3,6 +3,7 @@ import postsApi from "../../api/post";
 import usePosts from "../../hooks/usePosts";
 import { useSelector } from "react-redux";
 import Post from "../post/Post";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function ProfilePosts() {
   const { getUserPosts, singlePost, loading, errors } = usePosts();
@@ -14,8 +15,17 @@ export default function ProfilePosts() {
 
   if (loading) {
     return (
-      <div className="p-4 bg-white rounded-xl shadow-sm text-slate-600">
-        جاري تحميل المنشورات...
+      <div className="flex justify-center items-center">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
       </div>
     );
   }

@@ -8,14 +8,25 @@ import {
   FiEdit,
   FiTrash,
 } from "react-icons/fi";
+import { useSelector } from "react-redux";
 import useAction from "../../hooks/useAction";
+import usePosts from "../../hooks/usePosts";
 import { toast } from "react-toastify";
 import useCommentAction from "../../hooks/useCommentAction";
 import Comments from "./Comments";
+import { Link } from "react-router-dom";
 export default function Post({ post }) {
   const [showMore, setShowMore] = useState(false);
   const [openComments, setOpenComments] = useState(false);
   const [showMoreComments, setShowMoreComments] = useState(null);
+
+  const user = useSelector((state) => state.userReducer.user);
+  const {
+    deletePost,
+    success: deleteSuccess,
+    errors: deleteErrors,
+    loading: deleteLoading,
+  } = usePosts();
 
   const {
     makeLike,
@@ -64,6 +75,21 @@ export default function Post({ post }) {
     }
   }, [commentSuccess, commentErrors, setCommentSuccess, setCommentErrors]);
 
+  useEffect(() => {
+    if (deleteSuccess) toast.success(deleteSuccess);
+    if (deleteErrors) toast.error(deleteErrors);
+  }, [deleteSuccess, deleteErrors]);
+
+  const handleDelete = async () => {
+    if (!user || user.id !== post.author.id) return;
+
+    const confirmed = window.confirm("هل أنت متأكد من حذف المنشور؟");
+    if (!confirmed) return;
+
+    await deletePost(post.id);
+    setShowMore(false);
+  };
+
   if (!post) return null;
 
   return (
@@ -73,22 +99,26 @@ export default function Post({ post }) {
         <div className="px-6 pt-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <span className="text-xs px-2 py-1 rounded-full bg-violet-100 text-violet-700">
-              {post.community_name}
+              <Link to={`/home/community/${post.community_id}`}>
+                {post.community_name}
+              </Link>
             </span>
 
             <span className="text-sm text-slate-500 flex gap-2">
-              <span>{post.author.name}</span>•
+              <Link to={`/home/profile/${post.author.id}`}>{post.author.name}</Link>•
               <span>{new Date(post.created_at).toLocaleString("ar-EG")}</span>
             </span>
           </div>
 
-          <button type="button" onClick={() => setShowMore((p) => !p)}>
-            <FiMoreVertical className="text-slate-500 cursor-pointer hover:text-violet-700 transition" />
-          </button>
+          {user?.id === post.author.id && (
+            <button type="button" onClick={() => setShowMore((p) => !p)}>
+              <FiMoreVertical className="text-slate-500 cursor-pointer hover:text-violet-700 transition" />
+            </button>
+          )}
         </div>
 
         {/* Menu */}
-        {showMore && (
+        {showMore && user?.id === post.author.id && (
           <div className="absolute left-0 top-10 z-50 w-32 rounded-xl border border-slate-200 bg-white shadow-lg overflow-hidden">
             <button
               type="button"
@@ -100,7 +130,9 @@ export default function Post({ post }) {
 
             <button
               type="button"
-              className="w-full px-4 py-2 text-right text-sm text-red-600 hover:bg-red-50 transition"
+              onClick={handleDelete}
+              disabled={deleteLoading}
+              className="w-full px-4 py-2 text-right text-sm text-red-600 hover:bg-red-50 transition disabled:opacity-50"
             >
               <FiTrash className="inline-block mr-1" />
               حذف
@@ -111,7 +143,7 @@ export default function Post({ post }) {
         {/* Content */}
         <div className="px-6 py-5">
           <h1 className="text-xl font-bold text-slate-900 leading-relaxed">
-            {post.title}
+            <Link to={`/home/post/${post.id}`}>{post.title}</Link>
           </h1>
 
           {post.image && (
@@ -154,6 +186,7 @@ export default function Post({ post }) {
         </div>
         {openComments && (
           <Comments
+            user={user}
             post={post}
             makeComment={makeComment}
             replyComment={replyComment}

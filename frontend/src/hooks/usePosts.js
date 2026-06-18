@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import postsApi from "../api/post";
-import { usePostContext } from "../context/PostContext";
 import { useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { handleApiError } from "../utils/handleApiError";
 
 export default function usePosts() {
@@ -20,7 +18,7 @@ export default function usePosts() {
     try {
       setLoading(true);
       const res = await postsApi.all(currentPage);
-      dispatch({ type: "ADD_POSTS", payload: res.data?.data || [] });
+      dispatch({ type: "ADD_POSTS", payload: res.data?.data ?? [] });
       setMeta(res.data.meta);
       setHasMore(res.data.links.next !== null);
     } catch (error) {
@@ -57,6 +55,28 @@ export default function usePosts() {
     }
   };
 
+  const updatePost = async (id, data) => {
+    setErrors(null);
+    setSuccess(null);
+    try {
+      setLoading(true);
+      const res = await postsApi.update(id, data);
+      setSuccess(res.data.message);
+      const updatedPost = res.data?.data ?? null;
+
+      if (updatedPost) {
+        dispatch({ type: "ADD_SINGLE_POST", payload: updatedPost });
+        dispatch({ type: "UPDATE_POST", payload: updatedPost });
+      }
+
+      return updatedPost;
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getUserPosts = async () => {
     setErrors(null);
     try {
@@ -70,12 +90,29 @@ export default function usePosts() {
     }
   };
 
+  const deletePost = async (id) => {
+    setErrors(null);
+    setSuccess(null);
+    try {
+      setLoading(true);
+      const res = await postsApi.delete(id);
+      setSuccess(res.data.message);
+      dispatch({ type: "DELETE_POST", payload: id });
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
     getUserPosts,
     getSinglePost,
     meta,
     hasMore,
     addPost,
+    updatePost,
+    deletePost,
     errors,
     success,
     loading,

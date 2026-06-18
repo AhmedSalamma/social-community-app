@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "./assets/vite.svg";
 import heroImg from "./assets/hero.png";
@@ -6,7 +6,23 @@ import "./App.css";
 import WebRoutes from "./router/WebRoutes";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useUser from "./hooks/useUser";
+import usePosts from "./hooks/usePosts";
+import { ThreeDots } from "react-loader-spinner";
+import useCommunity from "./hooks/useCommunity";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+
 function App() {
+  const { getProfile } = useUser();
+  // const { id } = useParams();
+
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      getProfile();
+    }
+  }, []);
+
   return (
     <>
       <ToastContainer />
@@ -14,5 +30,4 @@ function App() {
     </>
   );
 }
-
 export default App;

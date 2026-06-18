@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { FiRefreshCw, FiArrowLeft } from "react-icons/fi";
 import useAuth from "../../hooks/useAuth";
+import { Navigate } from "react-router-dom";
 
 export default function Login() {
-  const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
   const { handleRegister, handleLogin, success, loading, errors } = useAuth();
+  const token = localStorage.getItem("token");
   // Register state
   const [register, setRegister] = useState({
     name: "",
@@ -44,6 +46,10 @@ export default function Login() {
       [e.target.id]: e.target.value,
     }));
   };
+
+  if (token) {
+    return <Navigate to="/home" replace />;
+  }
 
   return (
     <div className="min-h-screen bg-[#f6f6fb] flex flex-col items-center justify-center px-4">

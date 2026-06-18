@@ -1,9 +1,11 @@
 import React, { useEffect, useState, useRef } from "react";
 import useUser from "../../hooks/useUser";
 import { handleApiError } from "../../utils/handleApiError";
+import { useSelector } from "react-redux";
 
 export default function Settings() {
-  const { user, loading, getProfile, updateProfile } = useUser();
+  const { loading, getProfile, updateProfile } = useUser();
+  const user = useSelector((state) => state.userReducer.user);
   const [errors, setErrors] = useState(null);
   const [form, setForm] = useState({
     name: "",
@@ -144,11 +146,19 @@ export default function Settings() {
             />
             {/* Image preview */}
 
-            <img
-              src={preview || user?.image || "https://via.placeholder.com/150"}
-              alt="معاينة الصورة"
-              className="mt-2 w-16 h-16 rounded-full object-cover border"
-            />
+            {user.image || preview ? (
+              <img
+                src={preview || user?.image}
+                alt="معاينة الصورة"
+                className="mt-2 w-16 h-16 rounded-full object-cover border"
+              />
+            ) : (
+              <div className="mt-2 w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center border">
+                <span className="text-gray-500 font-bold">
+                  {user?.name?.charAt(0)?.toUpperCase() || "?"}
+                </span>
+              </div>
+            )}
           </label>
 
           <label className="block text-right">

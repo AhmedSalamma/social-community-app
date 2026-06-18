@@ -19,8 +19,8 @@ class PostController extends Controller
         return PostResource::collection(Post::with(['user', 'likes', 'comments', 'shares', 'community'])->latest()->paginate(8));
     }
 
-   public function store(PostRequest $request)
-   {
+    public function store(PostRequest $request)
+    {
         $data = $request->validated();
 
         if ($request->hasFile('image')) {
@@ -28,7 +28,9 @@ class PostController extends Controller
                 ->store('posts', 'public');
         }
 
-        $post = Auth::user()->posts()->create($data);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $post = $user->posts()->create($data);
 
         return $this->respondSuccess(
             PostResource::make($post),
@@ -60,8 +62,10 @@ class PostController extends Controller
 
     public function getUserPosts()
     {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
 
-        $posts = Auth::user()->posts()
+        $posts = $user->posts()
             ->with(['user', 'likes', 'comments', 'shares', 'community'])
             ->latest()
             ->paginate(10);
@@ -75,7 +79,10 @@ class PostController extends Controller
 
     public function getUserComments()
     {
-        $comments = Auth::user()->comments()
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+
+        $comments = $user->comments()
             ->with(['dislikes','likes'])
             ->latest()
             ->paginate(10);
@@ -85,11 +92,37 @@ class PostController extends Controller
             'تم جلب تعليقاتك بنجاح',
             200
         );
-}
+    }
+
+    public function update(PostRequest $request, int $id)
+    {
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $post = $user->posts()->findOrFail($id);
+        $data = $request->validated();
+
+        if ($request->hasFile('image')) {
+            $data['image'] = $request->file('image')
+                ->store('posts', 'public');
+        }
+
+        $post->update($data);
+        $post->load(['user', 'likes', 'comments', 'shares', 'community']);
+
+        Cache::forget("post_$id");
+
+        return $this->respondSuccess(
+            PostResource::make($post),
+            'تم تحديث المنشور بنجاح',
+            200
+        );
+    }
 
     public function destroy(int $id)
     {
-        $post = Auth::user()->posts()->findOrFail($id);
+        /** @var \App\Models\User $user */
+        $user = Auth::user();
+        $post = $user->posts()->findOrFail($id);
         $post->delete();
 
         Cache::forget("post_$id");

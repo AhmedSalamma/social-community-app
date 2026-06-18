@@ -1,72 +1,119 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate, useParams, Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import usePosts from "../../hooks/usePosts";
-import PostForm from "../components/PostForm";
 import useCommunities from "../../hooks/useCommunities";
+import PostForm from "../components/PostForm";
 import { toast } from "react-toastify";
-import { Link } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
-export default function CreatePostes() {
+export default function EditPost() {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const singlePost = useSelector((state) => state.postReducer.singlePost);
+  const { getSinglePost, updatePost, loading, errors, success } = usePosts();
+  const { communities, getCommunities } = useCommunities();
+
   const [post, setPost] = useState({
     title: "",
     content: "",
     community_id: "",
     image: null,
   });
-  const [createdPostId, setCreatedPostId] = useState(null);
-
-  const { addPost, errors, success, loading } = usePosts();
-  const { communities, getCommunities } = useCommunities();
 
   useEffect(() => {
     getCommunities();
   }, []);
+
   useEffect(() => {
-    if (success) {
+    getSinglePost(id);
+  }, [id]);
+
+  useEffect(() => {
+    if (singlePost) {
       setPost({
-        title: "",
-        content: "",
-        community_id: "",
+        title: singlePost.title || "",
+        content: singlePost.content || "",
+        community_id: singlePost.community_id || "",
         image: null,
       });
     }
+  }, [singlePost]);
+
+  useEffect(() => {
     if (errors) {
       if (Array.isArray(errors)) {
-        errors.forEach((element) => {
-          toast.error(element);
-        });
+        errors.forEach((message) => toast.error(message));
       } else {
         toast.error(errors);
       }
     }
+
+    if (success) {
+      toast.success(success);
+    }
   }, [errors, success]);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault();
 
     const formData = new FormData();
     formData.append("title", post.title);
     formData.append("content", post.content);
     formData.append("community_id", post.community_id);
-    if (post.image) formData.append("image", post.image);
+    if (post.image) {
+      formData.append("image", post.image);
+    }
 
-    const createdPost = await addPost(formData);
-    if (createdPost?.id) setCreatedPostId(createdPost.id);
+    const updated = await updatePost(id, formData);
+    if (updated?.id) {
+      navigate(`/home/post/${updated.id}`);
+    }
   };
-  return (
-    <section className=" p-6">
-      <form onSubmit={handleSubmit}>
-        {success && createdPostId && (
-          <div className="p-4 rounded-md bg-green-100 border border-green-300 text-green-800 flex items-center justify-between">
-            <p>{success} 🎉</p>
 
-            <Link
-              to={`/home/post/${createdPostId}`}
-              className="text-green-700 font-semibold underline hover:text-green-900"
-            >
-              عرض المنشور
-            </Link>
-          </div>
-        )}
+  if (loading && !singlePost) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
+
+  if (!singlePost) {
+    return (
+      <div className="mt-6 p-4 bg-white rounded-xl shadow-sm text-slate-600">
+        المنشور غير موجود أو لا يمكنك التعديل عليه.
+      </div>
+    );
+  }
+
+  return (
+    <section className="p-6">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-semibold">تعديل المنشور</h1>
+          <p className="text-sm text-slate-500 mt-1">
+            يمكنك تعديل عنوان المنشور، المحتوى، والمجتمع.
+          </p>
+        </div>
+        <Link
+          to={`/home/post/${id}`}
+          className="inline-flex items-center px-4 py-2 rounded-full border border-slate-300 text-slate-700 hover:bg-slate-50 transition"
+        >
+          عودة إلى المنشور
+        </Link>
+      </div>
+
+      <form onSubmit={handleSubmit}>
         <div className="mb-6">
           <label className="block mb-2 text-sm font-medium text-gray-700">
             اختر المجتمع
@@ -91,6 +138,7 @@ export default function CreatePostes() {
             ))}
           </select>
         </div>
+
         <label>عنوان المنشور</label>
         <input
           type="text"
@@ -103,6 +151,7 @@ export default function CreatePostes() {
           }
           className="w-full mt-2 mb-6 rounded-lg border border-gray-300 bg-white px-4 py-3 text-sm outline-none focus:border-violet-500 focus:ring-2 focus:ring-violet-200 transition"
         />
+
         <PostForm
           loading={loading}
           textarea={post.content}
@@ -117,15 +166,9 @@ export default function CreatePostes() {
               setPost((prev) => ({ ...prev, image: e.target.files[0] }));
             }
           }}
+          submitLabel="تحديث"
         />
       </form>
-      {post.image && (
-        <img
-          src={URL.createObjectURL(post.image)}
-          alt="Preview"
-          className="w-64 rounded-lg mt-4"
-        />
-      )}
     </section>
   );
 }

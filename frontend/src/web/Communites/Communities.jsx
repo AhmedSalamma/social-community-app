@@ -13,6 +13,17 @@ export default function Communities() {
   }, []);
   return (
     <section className="mt-4">
+      <div className="flex items-center justify-between mb-4">
+        <h1 className="text-xl font-semibold text-slate-900">المجتمعات</h1>
+
+        <Link
+          to="/communities/create"
+          className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition"
+        >
+          + إنشاء مجتمع
+        </Link>
+      </div>
+
       {loadingCommunities && (
         <div className="flex justify-center items-center min-h-screen">
           <ThreeDots
@@ -39,17 +50,6 @@ export default function Communities() {
           لا توجد مجتمعات حالياً.
         </div>
       )}
-
-      <div className="flex items-center justify-between mb-4">
-        <h1 className="text-xl font-semibold text-slate-900">المجتمعات</h1>
-
-        <Link
-          to="/communities/create"
-          className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition"
-        >
-          + إنشاء مجتمع
-        </Link>
-      </div>
 
       {!loadingCommunities && !errors && communities.length > 0 && (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mt-4">

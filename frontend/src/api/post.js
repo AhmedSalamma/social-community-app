@@ -13,6 +13,12 @@ const postsApi = {
   add: (data) => {
     return api.post("posts/add", data);
   },
+  update: (id, data) => {
+    return api.post(`posts/${id}`, data);
+  },
+  delete: (id) => {
+    return api.delete(`posts/${id}`);
+  },
 };
 
 export default postsApi;

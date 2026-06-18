@@ -3,13 +3,11 @@ import { FiImage, FiSettings } from "react-icons/fi";
 import { NavLink, Outlet } from "react-router-dom";
 import useUser from "../../hooks/useUser";
 import { ThreeDots } from "react-loader-spinner";
+import { useSelector } from "react-redux";
 
 export default function Profile() {
-  const { user, loading, errors, getProfile } = useUser();
-
-  useEffect(() => {
-    getProfile();
-  }, []);
+  const { loading, errors, getProfile } = useUser();
+  const user = useSelector((state) => state.userReducer.user);
 
   const navClass = ({ isActive }) =>
     `pb-3 transition ${
@@ -58,11 +56,19 @@ export default function Profile() {
       {/* Header */}
       <div className="relative -mt-10 mx-auto w-[95%] md:w-[80%] bg-white rounded-xl shadow-md p-5 flex items-center justify-between">
         <div className="flex items-center gap-4">
-          <img
-            src="https://i.pravatar.cc/100"
-            alt="community"
-            className="w-16 h-16 rounded-full border-2 border-white shadow"
-          />
+          {user?.image ? (
+            <img
+              src={user.image}
+              alt="community"
+              className="w-16 h-16 rounded-full border-2 border-white shadow  object-cover"
+            />
+          ) : (
+            <div className="w-16 h-16 rounded-full bg-gray-300 flex items-center justify-center">
+              <span className="text-gray-500 font-bold">
+                {user?.name?.charAt(0)?.toUpperCase() || "?"}
+              </span>
+            </div>
+          )}
 
           <div>
             <h3 className="text-lg font-semibold">{user?.name}</h3>
@@ -79,6 +85,10 @@ export default function Profile() {
                   : "2026"}
               </span>
             </div>
+            <p className="text-sm text-gray-500 ]">
+              {user?.bio?.slice(0, 100) ?? "لا يوجد سيرة ذاتية"}
+              ...
+            </p>
           </div>
         </div>
 

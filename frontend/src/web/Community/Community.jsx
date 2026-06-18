@@ -4,9 +4,11 @@ import { NavLink, Outlet, useParams } from "react-router-dom";
 import PostForm from "../components/PostForm";
 import useCommunity from "../../hooks/useCommunity";
 import { ThreeDots } from "react-loader-spinner";
+import { useSelector } from "react-redux";
 
 export default function Community() {
   const { community, getCommunity, loading } = useCommunity();
+  const user = useSelector((state) => state.userReducer.user);
   const { id } = useParams();
   useEffect(() => {
     getCommunity(id);
@@ -40,7 +42,7 @@ export default function Community() {
       {/* Cover */}
       <div className="relative h-56 w-full overflow-hidden">
         <img
-          src="https://i.pravatar.cc/1200"
+          src={community?.community.image || "https://i.pravatar.cc/1200"}
           alt="cover"
           className="w-full h-full object-cover"
         />
@@ -49,12 +51,18 @@ export default function Community() {
 
       {/* Header */}
       <div className="relative -mt-10 mx-auto w-[95%] md:w-[80%] bg-white rounded-xl shadow-md p-5 flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          <img
-            src={community?.community.image || "https://i.pravatar.cc/100"}
-            alt="community"
-            className="w-16 h-16 rounded-full border-2 border-white shadow"
-          />
+        <div className="flex items-center gap-6">
+          {community?.community.image ? (
+            <img
+              src={community?.community.image}
+              alt="community"
+              className="w-16 h-16 rounded-full border-2 border-white shadow"
+            />
+          ) : (
+            <span className="bg-violet-100 text-violet-600 w-16 h-16 flex items-center justify-center rounded-full text-lg font-semibold">
+              {community?.community.name.charAt(0) || "م"}
+            </span>
+          )}
 
           <div>
             <h3 className="text-lg font-semibold">
@@ -69,11 +77,15 @@ export default function Community() {
               </span>
               <span>{community?.community.posts_count || 0} منشور </span>
             </div>
-            <p>{community?.community.desc || "Community description"}</p>
+            <p className="text-sm text-gray-500 mt-1 w-[90%] md:w-[80%]">
+              {community?.community.desc?.slice(0, 100) ??
+                "Community description"}
+              ...
+            </p>
           </div>
         </div>
 
-        <button className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm">
+        <button className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition cursor-pointer w-[30%]">
           + إنضمام
         </button>
       </div>

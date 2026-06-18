@@ -19,6 +19,7 @@ Route::controller(PostController::class)->middleware('auth:sanctum')->group(func
 
     Route::get('posts/{post}', 'show');
     Route::post('posts/add', 'store');
+    Route::post('posts/{post}', 'update');
     Route::delete('posts/{post}', 'destroy');
 });
 

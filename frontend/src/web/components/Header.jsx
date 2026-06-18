@@ -9,11 +9,15 @@ import {
   FiX,
 } from "react-icons/fi";
 import { Link } from "react-router-dom";
+import useUser from "../../hooks/useUser";
+import { useSelector } from "react-redux";
 
 export default function Header() {
   const [openSearch, setOpenSearch] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const [openMobileNav, setOpenMobileNav] = useState(false);
+
+  const user = useSelector((state) => state.userReducer.user);
 
   return (
     <header className="bg-white text-primary border-b border-gray-200 h-16">
@@ -33,8 +37,8 @@ export default function Header() {
         {/* User */}
         <div className="flex items-center gap-6">
           {/* User */}
-          <Link to="profile">
-            <div className="flex items-center">
+          <Link to={`/home/profile/${user?.id}`}>
+            <div className="flex items-center gap-6">
               {isLogin ? (
                 <>
                   {/* Notification */}
@@ -42,12 +46,23 @@ export default function Header() {
                     <FaBell size={18} />
                     <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
                   </button>
-
-                  <img
-                    src="https://i.pravatar.cc/40"
-                    alt="user"
-                    className="w-9 h-9 rounded-full object-cover border cursor-pointer hover:scale-105 transition"
-                  />
+                  {user?.image ? (
+                    <Link to={`/home/profile/${user?.id}`}>
+                      <img
+                        src={user?.image}
+                        alt="user"
+                        className="w-9 h-9 rounded-full object-cover border cursor-pointer hover:scale-105 transition"
+                      />
+                    </Link>
+                  ) : (
+                    <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
+                      <Link to={`/home/profile/${user?.id}`}>
+                        <span className="text-gray-500 font-bold">
+                          {user?.name?.charAt(0)?.toUpperCase() || "?"}
+                        </span>
+                      </Link>
+                    </div>
+                  )}
                 </>
               ) : (
                 <button className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm">
@@ -105,14 +120,26 @@ export default function Header() {
 
             {/* User */}
             <button className="lex items-center">
-              <img
-                onClick={() => {
-                  setOpenMobileNav(true);
-                }}
-                src="https://i.pravatar.cc/40"
-                alt="user"
-                className="w-9 h-9 rounded-full object-cover border cursor-pointer hover:scale-105 transition"
-              />
+              {user?.image ? (
+                <Link to={`/home/profile/${user?.id}`}>
+                  <img
+                    onClick={() => {
+                      setOpenMobileNav(true);
+                    }}
+                    src={user?.image}
+                    alt="user"
+                    className="w-9 h-9 rounded-full object-cover border cursor-pointer hover:scale-105 transition"
+                  />
+                </Link>
+              ) : (
+                <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
+                  <Link to={`/home/profile/${user?.id}`}>
+                    <span className="text-gray-500 font-bold">
+                      {user?.name?.charAt(0)?.toUpperCase() || "?"}
+                    </span>
+                  </Link>
+                </div>
+              )}
             </button>
           </div>
         </div>
@@ -148,7 +175,7 @@ export default function Header() {
                   onClick={() => {
                     setOpenMobileNav(false);
                   }}
-                  to="profile"
+                  to={`/home/profile/${user?.id}`}
                 >
                   الملف الشخصي
                 </Link>

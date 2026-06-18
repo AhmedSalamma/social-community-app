@@ -44,7 +44,7 @@ export default function SideRight() {
       {/* Create Post */}
       <div className="my-4 space-y-3">
         <Link
-          to="create"
+          to="/home/create"
           className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-3xl bg-violet-500 hover:bg-violet-600 text-white transition"
         >
           <FiPlus size={18} />
@@ -52,7 +52,7 @@ export default function SideRight() {
         </Link>
 
         <Link
-          to="communities/create"
+          to="/home/communities/create"
           className="mx-auto flex items-center justify-center gap-2 w-[80%] rounded-lg p-3 shadow-sm border border-violet-500 text-violet-600 hover:bg-violet-50 transition"
         >
           <FiUsers size={18} />
@@ -66,28 +66,28 @@ export default function SideRight() {
 
         <ul className="space-y-2">
           <li>
-            <NavLink to="/" className={activeClass}>
+            <NavLink to="/home" className={activeClass}>
               <FiHome size={18} />
               الرئيسية
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/communities" className={activeClass}>
+            <NavLink to="/home/communities" className={activeClass}>
               <FiUsers size={18} />
               المجتمعات
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/chat" className={activeClass}>
+            <NavLink to="/home/chat" className={activeClass}>
               <FiMessageCircle size={18} />
               الدردشات
             </NavLink>
           </li>
 
           <li>
-            <NavLink to="/settings" className={activeClass}>
+            <NavLink to="/home/settings" className={activeClass}>
               <FiSettings size={18} />
               الإعدادات
             </NavLink>
@@ -106,12 +106,12 @@ export default function SideRight() {
               className="flex items-center rounded-md overflow-hidden"
             >
               <NavLink
-                to={`/community/${community.id}`}
+                to={`/home/community/${community.id}`}
                 className={communityClass}
               >
                 {community.image ? (
                   <img
-                    src={`${import.meta.env.VITE_API_URL_DOMAIN}/storage/${community.image}`}
+                    src={community.image}
                     alt={community.name}
                     className="w-8 h-8 rounded-full object-cover"
                   />

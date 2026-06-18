@@ -10,16 +10,12 @@ export default function CommunityCard({ community }) {
     .map((word) => word[0])
     .join("");
 
-  const imageUrl = community.image
-    ? `${import.meta.env.VITE_API_URL_DOMAIN}/storage/${community.image}`
-    : null;
-
   return (
     <div className="bg-white shadow-sm rounded-lg p-4">
       <div className="flex justify-between items-center">
-        {imageUrl ? (
+        {community.image ? (
           <img
-            src={imageUrl}
+            src={community.image}
             alt={community.name}
             className="w-16 h-16 rounded-full object-cover border border-gray-200"
           />
@@ -30,16 +26,18 @@ export default function CommunityCard({ community }) {
         )}
 
         <Link
-          to={`/community/${community.id}`}
+          to={`/home/community/${community.id}`}
           className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition"
         >
           + انضمام
         </Link>
       </div>
 
-      <h3 className="text-lg font-medium mt-4">{community.name}</h3>
+      <h3 className="text-lg font-medium mt-4">
+        <Link to={`/home/community/${community.id}`}>{community.name}</Link>
+      </h3>
 
-      <p className="text-gray-600 mt-2">{community.desc}</p>
+      <p className="text-gray-600 mt-2">{community.desc.slice(0, 100)}...</p>
 
       <div className="flex gap-4 mt-3 text-sm">
         <span className="text-gray-400">

@@ -13,7 +13,7 @@ class CommunityResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'desc' => $this->desc,
-            'image' => $this->image,
+            'image' => asset('storage/' . $this->image),
             'posts_count' => $this->whenCounted('posts'),
             'created_at' => $this->created_at?->toDateTimeString(),
         ];

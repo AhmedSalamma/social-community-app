@@ -21,6 +21,7 @@ export default function useAuth() {
       localStorage.setItem("user", JSON.stringify(res.data.data.user));
       setSuccess(res.data.message);
       setTimeout(() => setSuccess(""), 3000);
+      navigate("/home");
     } catch (error) {
       if (error.response?.status === 422) {
         setErrors(error.response.data.errors);
@@ -42,7 +43,7 @@ export default function useAuth() {
 
       localStorage.setItem("token", res.data.data.token);
       localStorage.setItem("user", JSON.stringify(res.data.data.user));
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       if (error.response?.status === 401) {
         setErrors(error.response?.data?.message || "بيانات الدخول غير صحيحة");

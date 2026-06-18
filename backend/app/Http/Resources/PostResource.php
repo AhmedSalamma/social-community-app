@@ -20,6 +20,7 @@ class PostResource extends JsonResource
         'image'=>$this->image,
         'content' => $this->content,
         'user_id' => $this->user_id,
+        'community_id' => $this->community_id,
 
         'author' => $this->whenLoaded('user', function () {
             return [

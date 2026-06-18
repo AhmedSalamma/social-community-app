@@ -24,6 +24,21 @@ class CommunityController extends Controller
         );
     }
 
+   public function getPupularCommunities()
+   {
+        $communities = Community::withCount(['members', 'posts'])
+            ->orderByDesc('members_count')
+            ->orderByDesc('posts_count')
+            ->take(5)
+            ->get();
+
+        return $this->respondSuccess(
+            CommunityResource::collection($communities),
+            'تم جلب المجتمعات الشعبية بنجاح',
+            200
+        );
+    }
+
     public function myCommunities()
     {
         $communities = request()->user()

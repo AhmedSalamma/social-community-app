@@ -2,9 +2,11 @@ import { useState } from "react";
 import AddComment from "./AddComment";
 import { FiChevronUp, FiChevronDown, FiCornerUpLeft } from "react-icons/fi";
 import Reply from "./Reply";
+import { Link } from "react-router-dom";
 
 export default function Comments({
   post,
+  user,
   makeComment,
   replyComment,
   makeLikeOnComment,
@@ -16,7 +18,7 @@ export default function Comments({
   const [showMore, setShowMore] = useState(4);
   const [showMoreReplies, setShowMoreReplies] = useState({});
 
-  const rootComments = post.comments?.filter((c) => c.parent_id === null) ?? [];
+  const rootComments = (post.comments ?? []).filter((c) => c.parent_id == null);
 
   return (
     <div className="bg-slate-50 border-t border-slate-200 p-5">
@@ -37,11 +39,24 @@ export default function Comments({
                 <div key={comment.id} className="bg-white p-3">
                   <div className="flex justify-between items-start">
                     <div className="flex items-center gap-4">
-                      <img
-                        src="https://i.pravatar.cc/100"
-                        alt="avatar"
-                        className="w-10 h-10 rounded-full bg-slate-300"
-                      />
+                      {user?.id === comment.user_id ? (
+                        <Link to={`/home/profile/${user?.id}`}>
+                          <img
+                            src={user.image}
+                            alt="avatar"
+                            classNa
+                            me="w-10 h-10 rounded-full bg-slate-300"
+                          />
+                        </Link>
+                      ) : (
+                        <div className="w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
+                          <Link to={`/home/profile/${user?.id}`}>
+                            <span className="text-gray-500 font-bold">
+                              {user?.name?.charAt(0)?.toUpperCase() || "?"}
+                            </span>
+                          </Link>
+                        </div>
+                      )}
 
                       <h4 className="font-semibold text-slate-900">
                         {comment.user_name}
