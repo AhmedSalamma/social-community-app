@@ -1,18 +1,32 @@
 import React, { useRef, useState } from "react";
 import { FiImage } from "react-icons/fi";
 import usePosts from "../../hooks/usePosts";
+import { useSelector } from "react-redux";
 
-export default function PostForm({ textarea, setTextarea, image, loading, submitLabel = "نشر" }) {
+export default function PostForm({
+  textarea,
+  setTextarea,
+  image,
+  loading,
+  submitLabel = "نشر",
+}) {
   const [openWrite, setOpenWrite] = useState(false);
   const uplodeImage = useRef(null);
+  const user = useSelector((state) => state.userReducer.user);
 
   return (
     <div className="mx-auto mt-6 flex items-start gap-4 p-4 bg-white shadow-sm rounded-xl border border-gray-100">
-      <img
-        className="h-12 w-12 rounded-full object-cover"
-        src="https://i.pravatar.cc/100"
-        alt="user"
-      />
+      {user.FiImage ? (
+        <img
+          className="h-12 w-12 rounded-full object-cover"
+          src={user?.image}
+          alt="user"
+        />
+      ) : (
+        <span className="text-gray-500 font-bold w-9 h-9 rounded-full bg-gray-300 flex items-center justify-center">
+          {user?.name?.charAt(0)?.toUpperCase() || "?"}
+        </span>
+      )}
 
       <div className="flex-1">
         <textarea
