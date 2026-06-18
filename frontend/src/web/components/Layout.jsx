@@ -9,7 +9,7 @@ export default function Layout() {
   return (
     <>
       <Header />
-      <main className=" grid grid-cols-1 md:grid-cols-8 gap-6">
+      <main className=" grid grid-cols-1 md:grid-cols-8  container mx-auto gap-3">
         <aside className="hidden sm:hidden md:block lg:block  sticky top-0  h-screen bg-white md:col-span-2 rounded shadow-sm">
           <SideRight />
         </aside>

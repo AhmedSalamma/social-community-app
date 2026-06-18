@@ -94,7 +94,7 @@ export default function Post({ post }) {
 
   return (
     <div className="mt-4">
-      <article className="relative bg-white rounded-3xl border border-slate-200 overflow-hidden mt-4">
+      <article className="relative bg-white rounded-xl border border-slate-200 overflow-hidden mt-4">
         {/* Header */}
         <div className="px-6 pt-5 flex items-center justify-between">
           <div className="flex items-center gap-4">
@@ -105,8 +105,10 @@ export default function Post({ post }) {
             </span>
 
             <span className="text-sm text-slate-500 flex gap-2">
-              <Link to={`/home/profile/${post.author.id}`}>{post.author.name}</Link>•
-              <span>{new Date(post.created_at).toLocaleString("ar-EG")}</span>
+              <Link to={`/home/profile/${post.author.id}`}>
+                {post.author.name}
+              </Link>
+              •<span>{new Date(post.created_at).toLocaleString("ar-EG")}</span>
             </span>
           </div>
 

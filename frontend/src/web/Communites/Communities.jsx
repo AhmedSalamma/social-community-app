@@ -12,12 +12,12 @@ export default function Communities() {
     getCommunities();
   }, []);
   return (
-    <section className="mt-4">
-      <div className="flex items-center justify-between mb-4">
+    <section>
+      <div className="flex items-center justify-between mb-4 bg-white shadow-sm p-3 rounded-md">
         <h1 className="text-xl font-semibold text-slate-900">المجتمعات</h1>
 
         <Link
-          to="/communities/create"
+          to="home/communities/create"
           className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition"
         >
           + إنشاء مجتمع

@@ -17,8 +17,8 @@ export default function Home() {
   }, [currentPage]);
 
   return (
-    <section className="mt-4">
-      <div className=" flex items-center bg-white shadow-sm  gap-4 p-4 ">
+    <section>
+      <div className=" flex items-center bg-white shadow-sm rounded-md  gap-4 p-4 ">
         <div className="border-b-3 border-primary ">
           <NavLink to="/about" className="text-primary text-text">
             الأحدث

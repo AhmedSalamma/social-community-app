@@ -93,7 +93,7 @@ export default function Profile() {
         </div>
 
         <NavLink
-          to="/settings"
+          to="/home/settings"
           className="flex gap-2 border border-violet-600 text-violet-600 px-5 py-2 rounded-full text-sm hover:bg-violet-50 transition"
         >
           <FiSettings size={20} />
