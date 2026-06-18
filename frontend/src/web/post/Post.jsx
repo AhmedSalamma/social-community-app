@@ -163,7 +163,7 @@ export default function Post({ post }) {
               <button
                 type="button"
                 onClick={() => makeLike(post.id)}
-                className=" cursor-pointer flex items-center gap-2 hover:text-violet-700 transitionr"
+                className=" cursor-pointer flex items-center gap-2 hover:text-violet-700 transitionr sm:text-sm"
               >
                 <FiChevronUp />({post.likes_count}) أعجبني
               </button>
@@ -171,12 +171,15 @@ export default function Post({ post }) {
               <button
                 onClick={() => setOpenComments((prev) => !prev)}
                 type="button"
-                className="cursor-pointer flex items-center gap-2"
+                className="cursor-pointer flex items-center gap-2 sm:text-sm"
               >
                 <FiMessageSquare /> ({post.comments_count}) تعليقات
               </button>
 
-              <button type="button" className="flex items-center gap-2">
+              <button
+                type="button"
+                className="flex items-center gap-2 sm:text-sm"
+              >
                 <FiShare2 /> ({post.share_count}) مشاركة
               </button>
             </div>
