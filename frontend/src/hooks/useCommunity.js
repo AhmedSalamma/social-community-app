@@ -10,6 +10,7 @@ export default function useCommunity() {
   const [meta, setMeta] = useState(null);
   const [hasMore, setHasMore] = useState(false);
   const [page, setPage] = useState(1);
+  const [pupularCommunity, setPupularCommunity] = useState(null);
 
   const handleError = (error) => {
     handleApiError(error, setErrors);
@@ -28,7 +29,33 @@ export default function useCommunity() {
     }
   };
 
+  const joinCommunity = async (id) => {
+    try {
+      setErrors(null);
+      const res = await communitiesApi.join(id);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const getPupularCommunities = async () => {
+    try {
+      setErrors(null);
+      const res = await communitiesApi.getPupular();
+      setPupularCommunity(res.data?.data ?? null);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
+    getPupularCommunities,
+    pupularCommunity,
+    joinCommunity,
     community,
     loading,
     errors,

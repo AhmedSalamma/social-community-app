@@ -7,13 +7,25 @@ import { ThreeDots } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 
 export default function Community() {
-  const { community, getCommunity, loading } = useCommunity();
+  const { community, getCommunity, loading, joinCommunity } = useCommunity();
+  const [isJoin, setIsJoin] = useState("");
   const user = useSelector((state) => state.userReducer.user);
+  const isMember = community?.community?.users.some((u) => (u.id = user.id));
+
   const { id } = useParams();
+
   useEffect(() => {
     getCommunity(id);
   }, [id]);
 
+  const handleJoin = async () => {
+    const res = await joinCommunity(community?.community.id);
+    setIsJoin("تم الإنضمام إلى المجتمع بنجاح");
+
+    if (res) {
+      toast.success(setIsJoin);
+    }
+  };
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -41,11 +53,16 @@ export default function Community() {
     <section className="min-h-screen bg-primary">
       {/* Cover */}
       <div className="relative h-56 w-full overflow-hidden">
-        <img
-          src={community?.community.image || "https://i.pravatar.cc/1200"}
-          alt="cover"
-          className="w-full h-full object-cover"
-        />
+        {community?.community.image ? (
+          <img
+            src={community.community.image}
+            alt="cover"
+            className="w-full h-full object-cover"
+          />
+        ) : (
+          <div className="w-full h-full bg-gradient-to-r from-violet-400 to-violet-600" />
+        )}
+
         <div className="absolute inset-0 bg-black/20" />
       </div>
 
@@ -78,16 +95,31 @@ export default function Community() {
               <span>{community?.community.posts_count || 0} منشور </span>
             </div>
             <p className="text-sm text-gray-500 mt-1 w-[90%] md:w-[80%]">
-              {community?.community.desc?.slice(0, 100) ??
-                "Community description"}
-              ...
+              {community?.community.desc
+                ? community.community.desc.length > 100
+                  ? community.community.desc.slice(0, 100) + "..."
+                  : community.community.desc
+                : "Community description"}
             </p>
           </div>
         </div>
-
-        <button className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition cursor-pointer w-[30%]">
-          + إنضمام
-        </button>
+        {isMember ? (
+          <button
+            onClick={handleJoin}
+            type="button"
+            className=" border border-violet-600 text-violet-600 px-5 py-2 rounded-full text-sm hover:bg-violet-700 hover:text-white transition cursor-pointer w-[30%]"
+          >
+            خروج
+          </button>
+        ) : (
+          <button
+            onClick={handleJoin}
+            type="button"
+            className="bg-violet-600 text-white px-5 py-2 rounded-full text-sm hover:bg-violet-700 transition cursor-pointer w-[30%]"
+          >
+            + إنضمام
+          </button>
+        )}
       </div>
 
       {/* Write Post */}

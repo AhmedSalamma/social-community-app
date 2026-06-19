@@ -13,6 +13,12 @@ const communitiesApi = {
   add: (data) => {
     return api.post("communities/add", data);
   },
+  join: (id) => {
+    return api.post(`communities/${id}/join`);
+  },
+  getPupular: (id) => {
+    return api.get(`communities/getPupularCommunities`);
+  },
 };
 
 export default communitiesApi;

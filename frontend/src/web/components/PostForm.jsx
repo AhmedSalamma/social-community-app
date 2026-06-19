@@ -16,7 +16,7 @@ export default function PostForm({
 
   return (
     <div className="mx-auto mt-6 flex items-start gap-4 p-4 bg-white shadow-sm rounded-xl border border-gray-100">
-      {user.FiImage ? (
+      {user?.image ? (
         <img
           className="h-12 w-12 rounded-full object-cover"
           src={user?.image}
