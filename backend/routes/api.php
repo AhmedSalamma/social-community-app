@@ -39,6 +39,8 @@ Route::controller(CommentActionController::class)->middleware('auth:sanctum')->g
 
 Route::controller(CommunityController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('communities', 'index');
+    Route::get('communities/getPupularCommunities', 'getPupularCommunities');
+    Route::post('communities/{community}/join', 'join');
     Route::get('communities/user', 'myCommunities');
     Route::post('communities/add', 'store');
     Route::get('communities/{community}', 'show');

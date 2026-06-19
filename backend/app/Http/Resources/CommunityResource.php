@@ -15,6 +15,10 @@ class CommunityResource extends JsonResource
             'desc' => $this->desc,
             'image' => asset('storage/' . $this->image),
             'posts_count' => $this->whenCounted('posts'),
+            'users' => UserResource::collection(
+                $this->whenLoaded('users')
+            ),
+            'users_count' => $this->whenCounted('users'),
             'created_at' => $this->created_at?->toDateTimeString(),
         ];
     }

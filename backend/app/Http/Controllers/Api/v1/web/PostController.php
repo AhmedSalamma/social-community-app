@@ -28,7 +28,7 @@ class PostController extends Controller
                 ->store('posts', 'public');
         }
 
-        /** @var \App\Models\User $user */
+       
         $user = Auth::user();
         $post = $user->posts()->create($data);
 
@@ -36,6 +36,22 @@ class PostController extends Controller
             PostResource::make($post),
             'تم إرسال منشورك بنجاح',
             201
+        );
+    }
+
+
+    public function getPupularPosts()
+    {
+        $posts = Post::with(['user', 'likes', 'comments', 'shares', 'community'])
+            ->withCount('likes')
+            ->orderByDesc('likes_count')
+            ->take(5)
+            ->get();
+
+        return $this->respondSuccess(
+            PostResource::collection($posts),
+            'تم جلب المنشورات الشعبية بنجاح',
+            200
         );
     }
 
