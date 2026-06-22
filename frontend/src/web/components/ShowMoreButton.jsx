@@ -1,4 +1,5 @@
 import React from "react";
+import { FiArrowDown } from "react-icons/fi";
 
 export default function ShowMoreButton({
   onClick,
@@ -12,28 +13,25 @@ export default function ShowMoreButton({
   return (
     <div className="flex justify-center mt-4">
       <button
+        type="button"
         onClick={onClick}
         disabled={loading}
-        className={`px-4 py-2 rounded-md text-white transition 
-          ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700"}
+        className={`px-4 py-2 rounded-full text-white transition 
+          ${loading ? "bg-gray-400 cursor-not-allowed" : "bg-violet-500 hover:bg-violet-700 cursor-pointer"}
         `}
       >
         {loading ? (
           <span className="flex items-center gap-2">
-            <Spinner />
+            <FiArrowDown className="animate-spin" />
             {loadingText}
           </span>
         ) : (
-          text
+          <span className="flex items-center gap-2">
+            <FiArrowDown />
+            {text}
+          </span>
         )}
       </button>
     </div>
-  );
-}
-
-// Spinner component
-function Spinner() {
-  return (
-    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
   );
 }

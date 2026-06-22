@@ -44,8 +44,7 @@ export default function Comments({
                           <img
                             src={user.image}
                             alt="avatar"
-                            classNa
-                            me="w-10 h-10 rounded-full bg-slate-300"
+                            className="w-10 h-10 rounded-full bg-slate-300 object-cover"
                           />
                         </Link>
                       ) : (

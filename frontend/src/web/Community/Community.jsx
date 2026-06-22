@@ -87,11 +87,6 @@ export default function Community() {
             </h3>
 
             <div className="text-sm text-gray-500 flex items-center gap-2 mt-1">
-              <span>
-                {new Date(
-                  community?.community.created_at || "Created at",
-                ).toLocaleDateString() || "Created at"}
-              </span>
               <span>{community?.community.posts_count || 0} منشور </span>
             </div>
             <p className="text-sm text-gray-500 mt-1 w-[90%] md:w-[80%]">

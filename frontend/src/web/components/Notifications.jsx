@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import {
   FiBell,
@@ -10,80 +10,30 @@ import {
   FiX,
 } from "react-icons/fi";
 
-const fallbackNotifications = [
-  {
-    id: 1,
-    type: "comment",
-    title: "تعليق جديد على منشورك",
-    body: "أضاف أحمد تعليقًا على نقاشك الأخير.",
-    time: "منذ 5 دقائق",
-    href: "/home",
-    read: false,
-  },
-  {
-    id: 2,
-    type: "like",
-    title: "تفاعل جديد",
-    body: "أعجب سارة بمنشورك في المجتمع.",
-    time: "منذ 22 دقيقة",
-    href: "/home",
-    read: false,
-  },
-  {
-    id: 3,
-    type: "community",
-    title: "طلب انضمام",
-    body: "هناك عضو جديد يريد الانضمام إلى مجتمعك.",
-    time: "اليوم",
-    href: "/home/communities",
-    read: true,
-  },
-];
-
 const notificationIcons = {
   comment: FiMessageSquare,
   like: FiHeart,
   community: FiUserPlus,
 };
 
-export default function Notifications({ notifications = fallbackNotifications }) {
+export default function Notifications({ notifications }) {
   const [open, setOpen] = useState(false);
-  const [items, setItems] = useState(notifications);
   const menuRef = useRef(null);
 
-  useEffect(() => {
-    setItems(notifications);
-  }, [notifications]);
+  const safeNotifications = Array.isArray(notifications) ? notifications : [];
+
+  const unreadCount = safeNotifications.filter((n) => !n.read).length;
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!menuRef.current || menuRef.current.contains(event.target)) return;
-      setOpen(false);
+    const handleClickOutside = (e) => {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setOpen(false);
+      }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const unreadCount = useMemo(
-    () => items.filter((notification) => !notification.read).length,
-    [items],
-  );
-
-  const markAllAsRead = () => {
-    setItems((currentItems) =>
-      currentItems.map((notification) => ({ ...notification, read: true })),
-    );
-  };
-
-  const markAsRead = (id) => {
-    setItems((currentItems) =>
-      currentItems.map((notification) =>
-        notification.id === id ? { ...notification, read: true } : notification,
-      ),
-    );
-    setOpen(false);
-  };
 
   return (
     <div ref={menuRef} className="relative">
@@ -95,6 +45,7 @@ export default function Notifications({ notifications = fallbackNotifications })
         className="relative p-2 rounded-full bg-gray-100 text-gray-600 hover:bg-violet-50 hover:text-violet-600 transition cursor-pointer"
       >
         <FiBell size={20} />
+
         {unreadCount > 0 && (
           <span className="absolute -top-1 -right-1 min-w-4 h-4 px-1 bg-red-500 text-white text-[10px] leading-4 rounded-full">
             {unreadCount}
@@ -107,24 +58,17 @@ export default function Notifications({ notifications = fallbackNotifications })
           <div className="flex items-center justify-between border-b border-slate-100 px-4 py-3">
             <div>
               <h2 className="text-sm font-bold text-slate-900">الإشعارات</h2>
-              <p className="mt-1 text-xs text-slate-500">
-                {unreadCount > 0
-                  ? `${unreadCount} إشعارات غير مقروءة`
-                  : "كل الإشعارات مقروءة"}
-              </p>
+              <p className="mt-1 text-xs text-slate-500"></p>
             </div>
 
             <div className="flex items-center gap-2">
-              {unreadCount > 0 && (
-                <button
-                  type="button"
-                  onClick={markAllAsRead}
-                  className="rounded-full p-2 text-slate-500 hover:bg-violet-50 hover:text-violet-700 transition"
-                  aria-label="تحديد الكل كمقروء"
-                >
-                  <FiCheck size={17} />
-                </button>
-              )}
+              <button
+                type="button"
+                className="rounded-full p-2 text-slate-500 hover:bg-violet-50 hover:text-violet-700 transition"
+                aria-label="تحديد الكل كمقروء"
+              >
+                <FiCheck size={17} />
+              </button>
 
               <button
                 type="button"
@@ -137,16 +81,15 @@ export default function Notifications({ notifications = fallbackNotifications })
             </div>
           </div>
 
-          {items.length > 0 ? (
+          {safeNotifications.length > 0 ? (
             <div className="max-h-[420px] overflow-y-auto py-2">
-              {items.map((notification) => {
+              {safeNotifications.map((notification) => {
                 const Icon = notificationIcons[notification.type] || FiBell;
 
                 return (
                   <Link
                     key={notification.id}
                     to={notification.href || "/home"}
-                    onClick={() => markAsRead(notification.id)}
                     className="group flex gap-3 px-4 py-3 hover:bg-slate-50 transition"
                   >
                     <span
@@ -162,17 +105,20 @@ export default function Notifications({ notifications = fallbackNotifications })
                     <span className="min-w-0 flex-1">
                       <span className="flex items-start justify-between gap-3">
                         <span className="text-sm font-semibold text-slate-900">
-                          {notification.title}
+                          {notification}
                         </span>
+
                         {!notification.read && (
                           <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-violet-600" />
                         )}
                       </span>
+
                       <span className="mt-1 block text-sm leading-6 text-slate-600">
-                        {notification.body}
+                        {notification}
                       </span>
+
                       <span className="mt-2 block text-xs text-slate-400">
-                        {notification.time}
+                        {notification}
                       </span>
                     </span>
                   </Link>

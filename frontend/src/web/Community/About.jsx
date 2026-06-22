@@ -26,9 +26,16 @@ export default function About() {
           />
         </div>
       ) : (
-        <p className="text-gray-600">
-          {community?.community.desc || "No description available."}
-        </p>
+        <>
+          <p className="text-gray-600">
+            {community?.community.desc || "No description available."}
+          </p>
+          <span>
+            {new Date(
+              community?.community.created_at || "Created at",
+            ).toLocaleDateString() || "Created at"}
+          </span>
+        </>
       )}
     </section>
   );

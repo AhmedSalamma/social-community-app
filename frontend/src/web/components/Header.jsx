@@ -18,6 +18,9 @@ export default function Header() {
 
   const user = useSelector((state) => state.userReducer.user);
 
+  const notifi = useSelector((state) => state.notification.notification);
+  const allNotifications = notifi?.notifications.map((n) => n.data.message);
+  console.log(allNotifications);
   return (
     <header className="bg-white text-primary border-b border-gray-200 h-16">
       <div className="hidden md:flex lg:flex w-[70%] mx-auto items-center justify-between h-full gap-4">
@@ -83,7 +86,7 @@ export default function Header() {
           <h1 className="font-bold text-lg">سكون</h1>
 
           <div className="flex items-center gap-6">
-            <Notifications />
+            <Notifications notifications={allNotifications} />
 
             <button
               type="button"

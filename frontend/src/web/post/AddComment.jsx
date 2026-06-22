@@ -11,7 +11,7 @@ export default function AddComment({ value, onChange, onClick }) {
             src={user?.image}
             alt="avatar"
             alt="avatar"
-            className="w-10 h-10 rounded-full bg-violet-700"
+            className="w-10 h-10 rounded-full bg-violet-700 object-cover"
           />
         </Link>
       ) : (
@@ -37,7 +37,7 @@ export default function AddComment({ value, onChange, onClick }) {
           <button
             type="button"
             onClick={onClick}
-            className="bg-violet-700 text-white px-3 py-2 rounded-full text-sm"
+            className="bg-violet-600 text-white px-3 py-2 rounded-full text-xs font-sm cursor-pointer hover:bg-violet-700"
           >
             نشر التعليق
           </button>

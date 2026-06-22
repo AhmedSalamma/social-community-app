@@ -12,19 +12,17 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class UserRegistered
+class PostCommented
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     /**
      * Create a new event instance.
      */
-    public function __construct(
-
-        public User $user
-        
-        )
-    {}
+    public function __construct(public User $user ,public Post $post, string $type, public string $message)
+    {
+        //
+    }
 
     /**
      * Get the channels the event should broadcast on.

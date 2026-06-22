@@ -23,7 +23,6 @@ export default function SideRight() {
   };
   const baseClass =
     "flex items-center w-full p-4 gap-6 text-xl font-light transition-all duration-200 hover:bg-violet-50";
-  console.log(myCommunities);
   const activeClass = ({ isActive }) =>
     `${baseClass} ${
       isActive

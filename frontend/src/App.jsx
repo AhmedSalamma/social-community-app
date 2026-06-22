@@ -12,10 +12,14 @@ import { ThreeDots } from "react-loader-spinner";
 import useCommunity from "./hooks/useCommunity";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import useNotification from "./hooks/useNotification";
 
 function App() {
   const { getProfile } = useUser();
-  // const { id } = useParams();
+  const { getNotification } = useNotification();
+  useEffect(() => {
+    getNotification();
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {

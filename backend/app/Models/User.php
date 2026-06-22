@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\Comment;
 use App\Models\Post;
 use Database\Factories\UserFactory;

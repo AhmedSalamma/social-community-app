@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api\v1\web;
 
+use App\Events\PostCommented;
+use App\Events\PostLiked;
 use App\Http\Controllers\Controller;
 use App\Models\Post;
 use App\Models\Dislike;
@@ -32,6 +34,8 @@ class PostActionController extends Controller
             'user_id' => $user->id,
         ]);
 
+        broadcast(new PostLiked($post->user, $post,'like',$user->name . " عجب بمنشورك"));
+
         return response()->json([
             'status' => true,
             'message' => 'Liked'
@@ -55,6 +59,8 @@ class PostActionController extends Controller
             'user_id' => $user->id,
             'content' =>   $request->content,
         ]);
+
+        broadcast(new PostCommented($post->user, $post,'like',$user->name . "علق على منشورك"));
 
         return response()->json([
             'status' => true,

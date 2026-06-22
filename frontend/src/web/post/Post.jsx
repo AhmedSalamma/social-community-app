@@ -15,6 +15,8 @@ import { toast } from "react-toastify";
 import useCommentAction from "../../hooks/useCommentAction";
 import Comments from "./Comments";
 import { Link } from "react-router-dom";
+// import Echo from "laravel-echo";
+// import Pusher from "pusher-js";
 
 export default function Post({ post }) {
   const [showMore, setShowMore] = useState(false);
@@ -80,6 +82,21 @@ export default function Post({ post }) {
     if (!confirmed) return;
     await deletePost(post.id);
     setShowMore(false);
+  };
+
+  const handelLikeNotify = () => {
+    window.Pusher = Pusher;
+
+    //   window.Echo = new Echo({
+    //     broadcaster: "reverb",
+    //     key: import.meta.env.VITE_REVERB_APP_KEY,
+    //     wsHost: import.meta.env.VITE_REVERB_HOST,
+    //     wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
+    //     wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
+    //     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
+    //     enabledTransports: ["ws", "wss"],
+    //   });
+    // };
   };
 
   if (!post) return null;
