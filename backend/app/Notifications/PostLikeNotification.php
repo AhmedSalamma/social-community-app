@@ -19,7 +19,9 @@ class PostLikeNotification extends Notification
      public function __construct(
         public Post $post,
         public User $user,
+        public string $type,
         public string $message,
+        public string $username
     ) {}
 
 
@@ -52,12 +54,11 @@ class PostLikeNotification extends Notification
     public function toArray(object $notifiable): array
     {
         return [
+            'type' => 'like',
             'post_id' => $this->post->id,
             'post_title' => $this->post->title ?? null,
-            'user_id' => $this->user->id,
-            'user_name' => $this->user->name,
+            'user_name' => $this->username,
             'message' => $this->message,
-            'type' => 'like',
         ];
     }
 }

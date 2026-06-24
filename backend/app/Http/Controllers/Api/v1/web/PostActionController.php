@@ -34,7 +34,7 @@ class PostActionController extends Controller
             'user_id' => $user->id,
         ]);
 
-        broadcast(new PostLiked($post->user, $post,'like',$user->name . " عجب بمنشورك"));
+        broadcast(new PostLiked($post->user, $post,'like','أعجبه منشورك',$user->name));
 
         return response()->json([
             'status' => true,
@@ -60,7 +60,7 @@ class PostActionController extends Controller
             'content' =>   $request->content,
         ]);
 
-        broadcast(new PostCommented($post->user, $post,'like',$user->name . "علق على منشورك"));
+        broadcast(new PostCommented($post->user, $post,'comment','علق على منشورك',$user->name ));
 
         return response()->json([
             'status' => true,

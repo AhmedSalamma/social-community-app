@@ -3,6 +3,8 @@
 use App\Models\User;
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('user.{id}', function (User $user, int $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('notifications.{userId}', function (User $user, int $userId) {
+    return (int) $user->id === $userId;
 });
+
+// في routes/api.php أو bootstrap/app.php

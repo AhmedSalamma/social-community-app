@@ -105,11 +105,8 @@ export default function SideLeft() {
         <h2 className="font-bold text-gray-900 mb-4">مجتمعات مقترحة</h2>
 
         {/* Item 1 */}
-        {pupularCommunity?.map((community) => (
-          <div
-            key={community.id}
-            className="flex items-center justify-between mb-3"
-          >
+        {pupularCommunity?.map((community, index) => (
+          <div key={index} className="flex items-center justify-between mb-3">
             <div className="flex flex-col">
               <div className="flex items-center gap-3">
                 <span className="bg-violet-200 text-violet-600 w-8 h-8 flex items-center justify-center rounded-full text-xs font-semibold">

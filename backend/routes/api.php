@@ -7,7 +7,7 @@ use App\Http\Controllers\Api\v1\web\PostController;
 use App\Http\Controllers\Api\v1\web\UserController;
 use App\Http\Controllers\Api\v1\Auth\AuthController;
 use App\Http\Controllers\Api\v1\web\NotificationController;
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Broadcast;
 use Illuminate\Support\Facades\Route;
 
 Route::post('login',[AuthController::class,'login']);
@@ -15,8 +15,10 @@ Route::post('register',[AuthController::class,'register']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('notifications', [NotificationController::class, 'index']);
-});
+    Route::post('notifications/{id}/read', [NotificationController::class, 'markAsReaded']);
+    Route::post('notifications/read-all', [NotificationController::class, 'markAsReadedAll']);
 
+});
 Route::controller(PostController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('posts', 'index');
     Route::get('posts/user', 'getUserPosts');
@@ -55,3 +57,5 @@ Route::controller(UserController::class)->middleware('auth:sanctum')->group(func
     Route::get('user/profile', 'profile');
     Route::post('user/profile', 'update');
 });
+
+Broadcast::routes(['middleware' => ['auth:sanctum']]);

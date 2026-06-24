@@ -22,6 +22,6 @@ class SendCommentNotification
      */
     public function handle(PostCommented $event): void
     {
-        $event->user->notify(new PostCommentedNotification($event->post, $event->user ,$event->message));
+        $event->user->notify(new PostCommentedNotification($event->post, $event->user ,$event->message, $event->username));
     }
 }

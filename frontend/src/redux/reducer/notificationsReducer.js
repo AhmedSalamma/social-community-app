@@ -1,5 +1,5 @@
 const init = {
-  notification: null,
+  notification: [],
 };
 
 export default function notificationsReducer(state = init, action) {
@@ -8,6 +8,29 @@ export default function notificationsReducer(state = init, action) {
       return {
         ...state,
         notification: action.payload,
+      };
+
+    case "PUSH_NOTIFICATION":
+      return {
+        ...state,
+        notification: [action.payload, ...state.notification],
+      };
+
+    case "MARK_NOTIFICATION_READ":
+      return {
+        ...state,
+        notification: state.notification.map((n) =>
+          n.id === action.payload ? { ...n, read: true } : n,
+        ),
+      };
+
+    case "MARK_ALL_NOTIFICATIONS_READ":
+      return {
+        ...state,
+        notification: state.notification.map((n) => ({
+          ...n,
+          read: true,
+        })),
       };
 
     default:

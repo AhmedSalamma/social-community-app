@@ -16,7 +16,7 @@ class PostCommentedNotification extends Notification
     /**
      * Create a new notification instance.
      */
-    public function __construct(public Post $post, public User $user, public string $message)
+    public function __construct(public Post $post, public User $user, public string $message, public string $username)
     {
         //
     }
@@ -50,12 +50,12 @@ class PostCommentedNotification extends Notification
     public function toArray(object $notifiable): array
     {
          return [
+            'type' => 'comment',
             'post_id' => $this->post->id,
             'post_title' => $this->post->title ?? null,
-            'user_id' => $this->user->id,
-            'user_name' => $this->user->name,
+            'user_name' => $this->username,
             'message' => $this->message,
-            'type' => 'comment',
+          
         ];
     }
 }

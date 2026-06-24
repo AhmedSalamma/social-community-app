@@ -8,10 +8,11 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class PostLiked implements ShouldBroadcast
+class PostLiked implements ShouldBroadcastNow
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -20,17 +21,22 @@ class PostLiked implements ShouldBroadcast
         public Post $post,
         public string $type,
         public string  $message,
+        public string $username
 
 
     ) {}
 
-    /**
-     * @return array<int, Channel>
-     */
-    public function broadcastOn(): array
+    public function broadcastAs()
+    {
+        return 'post.like';
+    }
+
+
+     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('user.' . $this->userId),
+            new PrivateChannel('notifications.' .  $this->user->id),
         ];
     }
+    
 }

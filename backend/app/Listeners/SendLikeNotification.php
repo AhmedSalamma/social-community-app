@@ -27,7 +27,9 @@ class SendLikeNotification
                 new PostLikeNotification(
                     $event->post,
                     $event->user,
-                    $event->message
+                    $event->type,
+                    $event->message,
+                    $event->username
                 )
             );
         
