@@ -22,7 +22,6 @@ export default function SideLeft() {
     getPopularPosts();
   }, []);
 
-  console.log(pupularPosts);
   const user = useSelector((state) => state.userReducer.user);
   const isMember = pupularCommunity?.some((u) => u.id === user?.id);
   return (
