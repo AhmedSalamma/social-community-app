@@ -16,6 +16,10 @@ const postsApi = {
   update: (id, data) => {
     return api.post(`posts/${id}`, data);
   },
+  Popular: () => {
+    return api.get("posts/Popular");
+  },
+
   delete: (id) => {
     return api.delete(`posts/${id}`);
   },

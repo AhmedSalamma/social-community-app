@@ -40,12 +40,14 @@ class PostController extends Controller
     }
 
 
-    public function getPupularPosts()
+    public function getPopularPosts()
     {
         $posts = Post::with(['user', 'likes', 'comments', 'shares', 'community'])
             ->withCount('likes')
+            ->withCount('comments')
             ->orderByDesc('likes_count')
-            ->take(5)
+            ->orderByDesc('comments_count')
+            ->take(4)
             ->get();
 
         return $this->respondSuccess(

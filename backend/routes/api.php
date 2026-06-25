@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->group(function () {
 Route::controller(PostController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('posts', 'index');
     Route::get('posts/user', 'getUserPosts');
+    Route::get('posts/Popular', 'getPopularPosts');
     Route::get('posts/user/comments', 'getUserComments');
 
     Route::get('posts/{post}', 'show');

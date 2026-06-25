@@ -10,16 +10,21 @@ import {
 import { Link } from "react-router-dom";
 import useCommunity from "../../hooks/useCommunity";
 import { useSelector } from "react-redux";
+import usePosts from "../../hooks/usePosts";
 
 export default function SideLeft() {
   const { pupularCommunity, getPupularCommunities, joinCommunity } =
     useCommunity();
+
+  const { getPopularPosts, pupularPosts } = usePosts();
   useEffect(() => {
     getPupularCommunities();
-  });
-  const user = useSelector((state) => state.userReducer.user);
-  const isMember = pupularCommunity?.some((u) => (u.id = user?.id));
+    getPopularPosts();
+  }, []);
 
+  console.log(pupularPosts);
+  const user = useSelector((state) => state.userReducer.user);
+  const isMember = pupularCommunity?.some((u) => u.id === user?.id);
   return (
     <div>
       {/* Header */}
@@ -29,77 +34,36 @@ export default function SideLeft() {
       </div>
 
       {/* Trend Item */}
-      <div className="cursor-pointer p-2">
-        <h3 className="text-gray-800 text-sm font-medium mb-1">
-          كيف تلاقي شغل بأسرع وقت
-        </h3>
+      {pupularPosts?.map((post) => (
+        <Link key={post.id} to={`/home/post/${post.id}`}>
+          <div className="cursor-pointer p-2">
+            <h3 className="text-gray-800 text-sm font-medium mb-1">
+              {post.title}
+            </h3>
 
-        <p className="text-gray-500 text-xs">
-          لو عايز تلاقي شغل بأسرع وقت في بعض الخطوات اللي هتساعدك تبدأ بسرعة...
-        </p>
+            <p className="text-gray-500 text-xs">
+              {post.content.length > 100
+                ? post.content.slice(0, 100) + "..."
+                : post.content}
+            </p>
 
-        <div className="flex items-center gap-3 mt-2">
-          <span className="text-gray-400 text-xs">544 مشاهدة</span>
+            <div className="flex items-center gap-3 mt-2">
+              <span className="text-gray-400 text-xs">544 مشاهدة</span>
 
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiChevronUp />
-            45 إعجاب
-          </span>
+              <span className="text-gray-400 text-xs flex items-center gap-1.5">
+                <FiChevronUp />
+                {post.likes_count}
+              </span>
 
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiMessageSquare />
-            555 تعليق
-          </span>
-        </div>
-      </div>
+              <span className="text-gray-400 text-xs flex items-center gap-1.5">
+                <FiMessageSquare />
+                {post.comments_count}
+              </span>
+            </div>
+          </div>
+        </Link>
+      ))}
 
-      <div className="cursor-pointer p-2">
-        <h3 className="text-gray-800 text-sm font-medium mb-1">
-          كيف تلاقي شغل بأسرع وقت
-        </h3>
-
-        <p className="text-gray-500 text-xs">
-          لو عايز تلاقي شغل بأسرع وقت في بعض الخطوات اللي هتساعدك تبدأ بسرعة...
-        </p>
-
-        <div className="flex items-center gap-3 mt-2">
-          <span className="text-gray-400 text-xs">544 مشاهدة</span>
-
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiChevronUp />
-            45 إعجاب
-          </span>
-
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiMessageSquare />
-            555 تعليق
-          </span>
-        </div>
-      </div>
-
-      <div className="cursor-pointer p-2">
-        <h3 className="text-gray-800 text-sm font-medium mb-1">
-          كيف تلاقي شغل بأسرع وقت
-        </h3>
-
-        <p className="text-gray-500 text-xs">
-          لو عايز تلاقي شغل بأسرع وقت في بعض الخطوات اللي هتساعدك تبدأ بسرعة...
-        </p>
-
-        <div className="flex items-center gap-3 mt-2">
-          <span className="text-gray-400 text-xs">544 مشاهدة</span>
-
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiChevronUp />
-            45 إعجاب
-          </span>
-
-          <span className="text-gray-400 text-xs flex items-center gap-1.5">
-            <FiMessageSquare />
-            555 تعليق
-          </span>
-        </div>
-      </div>
       <div className="bg-violet-100 rounded-2xl p-4 w-full max-w-sm shadow-sm">
         {/* Header */}
         <h2 className="font-bold text-gray-900 mb-4">مجتمعات مقترحة</h2>
@@ -124,7 +88,10 @@ export default function SideLeft() {
               </div>
             </div>
             {!isMember && (
-              <button className="text-xs border border-violet-500 text-violet-600 rounded-full px-3 py-1 hover:bg-violet-200 transition">
+              <button
+                onClick={() => joinCommunity(community.id)}
+                className="text-xs border border-violet-500 text-violet-600 rounded-full px-3 py-1 hover:bg-violet-200 transition"
+              >
                 الانضمام
               </button>
             )}

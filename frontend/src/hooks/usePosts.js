@@ -9,7 +9,7 @@ export default function usePosts() {
   const [loading, setLoading] = useState(false);
   const [meta, setMeta] = useState(null);
   const [hasMore, setHasMore] = useState(true);
-
+  const [pupularPosts, setPupularPosts] = useState();
   const dispatch = useDispatch();
 
   const handleError = (error) => handleApiError(error, setErrors);
@@ -90,6 +90,19 @@ export default function usePosts() {
     }
   };
 
+  const getPopularPosts = async () => {
+    setErrors(null);
+    try {
+      setLoading(true);
+      const res = await postsApi.Popular();
+      setPupularPosts(res.data?.data);
+    } catch (error) {
+      handleError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const deletePost = async (id) => {
     setErrors(null);
     setSuccess(null);
@@ -106,6 +119,8 @@ export default function usePosts() {
   };
 
   return {
+    pupularPosts,
+    getPopularPosts,
     getUserPosts,
     getSinglePost,
     meta,

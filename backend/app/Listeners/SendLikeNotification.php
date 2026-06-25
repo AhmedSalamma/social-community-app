@@ -7,7 +7,7 @@ use App\Notifications\PostLikeNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendLikeNotification
+class SendLikeNotification implements ShouldQueue
 {
     /**
      * Create the event listener.

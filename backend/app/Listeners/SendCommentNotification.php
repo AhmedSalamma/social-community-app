@@ -7,7 +7,7 @@ use App\Notifications\PostCommentedNotification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
-class SendCommentNotification
+class SendCommentNotification implements ShouldQueue
 {
     /**
      * Create the event listener.
