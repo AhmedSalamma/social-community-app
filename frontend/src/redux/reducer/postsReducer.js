@@ -95,7 +95,9 @@ export default function postsReducer(state = initialState, action) {
             ? {
                 ...post,
                 comments: [...(post.comments ?? []), action.payload.comment],
-                comments_count: (post.comments_count || (post.comments || []).length || 0) + 1,
+                comments_count:
+                  (post.comments_count || (post.comments || []).length || 0) +
+                  1,
               }
             : post,
         ),
@@ -104,7 +106,9 @@ export default function postsReducer(state = initialState, action) {
             ? {
                 ...post,
                 comments: [...(post.comments ?? []), action.payload.comment],
-                comments_count: (post.comments_count || (post.comments || []).length || 0) + 1,
+                comments_count:
+                  (post.comments_count || (post.comments || []).length || 0) +
+                  1,
               }
             : post,
         ),
@@ -112,11 +116,71 @@ export default function postsReducer(state = initialState, action) {
           state.singlePost && state.singlePost.id === action.payload.postId
             ? {
                 ...state.singlePost,
-                comments: [...(state.singlePost.comments ?? []), action.payload.comment],
+                comments: [
+                  ...(state.singlePost.comments ?? []),
+                  action.payload.comment,
+                ],
                 comments_count:
-                  (state.singlePost.comments_count || (state.singlePost.comments || []).length || 0) + 1,
+                  (state.singlePost.comments_count ||
+                    (state.singlePost.comments || []).length ||
+                    0) + 1,
               }
             : state.singlePost,
+      };
+
+    case "ADD_REPLY":
+      return {
+        ...state,
+        posts: state.posts.map((post) => ({
+          ...post,
+          comments: (post.comments ?? []).map((comment) =>
+            comment.id === action.payload.commentId
+              ? {
+                  ...comment,
+                  replies: [...(comment.replies ?? []), action.payload.reply],
+                  replies_count:
+                    (comment.replies_count ||
+                      (comment.replies || []).length ||
+                      0) + 1,
+                }
+              : comment,
+          ),
+        })),
+        userPosts: state.userPosts.map((post) => ({
+          ...post,
+          comments: (post.comments ?? []).map((comment) =>
+            comment.id === action.payload.commentId
+              ? {
+                  ...comment,
+                  replies: [...(comment.replies ?? []), action.payload.reply],
+                  replies_count:
+                    (comment.replies_count ||
+                      (comment.replies || []).length ||
+                      0) + 1,
+                }
+              : comment,
+          ),
+        })),
+        singlePost: state.singlePost
+          ? {
+              ...state.singlePost,
+              comments: (state.singlePost.comments ?? []).map((comment) =>
+                comment.id === action.payload.commentId
+                  ? {
+                      ...comment,
+                      replies: [
+                        ...(comment.replies ?? []),
+                        action.payload.reply,
+                      ],
+                      replies_count:
+                        (comment.replies_count ||
+                          (comment.replies || []).length ||
+                          0) + 1,
+                    }
+                  : comment,
+              ),
+            }
+          : state.singlePost,
       };
 
     case "ADD_LIKE_ON_COMMENT":

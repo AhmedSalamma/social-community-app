@@ -21,7 +21,7 @@ export default function Comments({
   const rootComments = (post.comments ?? []).filter((c) => c.parent_id == null);
 
   return (
-    <div className="bg-slate-50 border-t border-slate-200 p-5">
+    <div className=" border-slate-200 p-5">
       <AddComment
         value={comment}
         onChange={(e) => setComment(e.target.value)}

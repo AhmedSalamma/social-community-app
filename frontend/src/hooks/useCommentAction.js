@@ -51,6 +51,13 @@ export default function useCommentAction() {
   const replyComment = async (id, data) => {
     try {
       const res = await commentAction.reply(id, data);
+      dispatch({
+        type: "ADD_REPLY",
+        payload: {
+          commentId: id,
+          reply: res.data.data,
+        },
+      });
       console.log(res.data.data);
     } catch (errors) {
       console.error(errors);

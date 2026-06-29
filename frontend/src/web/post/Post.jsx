@@ -84,21 +84,6 @@ export default function Post({ post }) {
     setShowMore(false);
   };
 
-  const handelLikeNotify = () => {
-    window.Pusher = Pusher;
-
-    //   window.Echo = new Echo({
-    //     broadcaster: "reverb",
-    //     key: import.meta.env.VITE_REVERB_APP_KEY,
-    //     wsHost: import.meta.env.VITE_REVERB_HOST,
-    //     wsPort: import.meta.env.VITE_REVERB_PORT ?? 80,
-    //     wssPort: import.meta.env.VITE_REVERB_PORT ?? 443,
-    //     forceTLS: (import.meta.env.VITE_REVERB_SCHEME ?? "https") === "https",
-    //     enabledTransports: ["ws", "wss"],
-    //   });
-    // };
-  };
-
   if (!post) return null;
 
   return (
@@ -134,7 +119,9 @@ export default function Post({ post }) {
               type="button"
               className="w-full px-4 py-2 text-right text-sm hover:bg-slate-100 transition"
             >
-              <FiEdit className="inline-block mr-1" /> تعديل
+              <Link to={`post/${post.id}/edit`}>
+                <FiEdit className="inline-block mr-1" /> تعديل
+              </Link>
             </button>
             <button
               type="button"
