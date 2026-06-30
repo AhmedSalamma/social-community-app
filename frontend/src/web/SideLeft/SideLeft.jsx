@@ -75,7 +75,12 @@ export default function SideLeft() {
                 <span className="bg-violet-200 text-violet-600 w-8 h-8 flex items-center justify-center rounded-full text-xs font-semibold">
                   ع/ل
                 </span>
-                <span className="text-gray-700 text-sm">{community.name}</span>
+                <span className="text-gray-700 text-sm">
+                  <Link to={`/home/community/${community.id}`}>
+                    {" "}
+                    {community.name}
+                  </Link>
+                </span>
               </div>
               <div className="flex items-center ">
                 <span className="text-violet-600 text-xs mr-10">
