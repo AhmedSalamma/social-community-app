@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import useCommunity from "../../hooks/useCommunity";
 import { Link, useParams } from "react-router-dom";
+import { ThreeDots } from "react-loader-spinner";
 
 function Members() {
   const { community, getCommunity, loading } = useCommunity();
@@ -9,6 +10,23 @@ function Members() {
   useEffect(() => {
     getCommunity(id);
   }, [id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center">
+        <ThreeDots
+          visible={true}
+          height="80"
+          width="80"
+          color="#5856d6"
+          radius="9"
+          ariaLabel="three-dots-loading"
+          wrapperStyle={{}}
+          wrapperClass=""
+        />
+      </div>
+    );
+  }
   return (
     <section className="mt-4">
       {users?.map((user) => (

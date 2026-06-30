@@ -11,7 +11,6 @@ export default function Replies() {
   useEffect(() => {
     getAllUserComments(page);
   }, [page]);
-  console.log(meta);
   if (loading) {
     return (
       <div className="flex justify-center items-center">
