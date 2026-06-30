@@ -7,11 +7,15 @@ export default function useUser() {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState(null);
   const [success, setSuccess] = useState(null);
+  const [userComments, setUserComments] = useState([]);
+  const [meta, setMeta] = useState(null);
 
   const dispatch = useDispatch();
 
   const getProfile = async () => {
     setErrors(null);
+    setMeta(null);
+
     try {
       setLoading(true);
       const res = await userApi.profile();
@@ -25,6 +29,7 @@ export default function useUser() {
 
   const updateProfile = async (data) => {
     setErrors(null);
+
     setSuccess(null);
     try {
       setLoading(true);
@@ -39,7 +44,25 @@ export default function useUser() {
     }
   };
 
+  const getAllUserComments = async (page) => {
+    setErrors(null);
+    setMeta(null);
+    try {
+      setLoading(true);
+      const res = await userApi.comments(page);
+      setUserComments(res.data?.data);
+      setMeta(res.data?.meta);
+    } catch (error) {
+      handleApiError(error, setErrors);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return {
+    meta,
+    getAllUserComments,
+    userComments,
     loading,
     errors,
     success,

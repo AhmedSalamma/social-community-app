@@ -62,7 +62,7 @@ export default function Comments({
                       </h4>
 
                       <span className="text-xs text-slate-500">
-                        {new Date(comment.created_at).toLocaleString("ar-EG")}
+                        {comment.created_at}
                       </span>
                     </div>
                   </div>

@@ -11,7 +11,6 @@ import CreatePostes from "../web/CreatePost/CreatePostes";
 import EditPost from "../web/CreatePost/EditPost";
 import Profile from "../web/profile/Profile";
 import Chat from "../web/chat/Chat";
-import Replies from "../web/components/Replies";
 import Saves from "../web/components/Saves";
 import Login from "../web/login/Login";
 import ProfilePosts from "../web/profile/ProfilePosts";
@@ -22,6 +21,7 @@ import CommunityPosts from "../web/Community/CommunityPosts";
 import ProtectedRoute from "./ProtectedRoute";
 import About from "../web/Community/About";
 import Members from "../web/Community/Members";
+import Replies from "../web/profile/Replies";
 export default function WebRoutes() {
   return (
     <Routes>

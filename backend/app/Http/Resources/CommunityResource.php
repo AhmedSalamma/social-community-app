@@ -19,7 +19,7 @@ class CommunityResource extends JsonResource
                 $this->whenLoaded('users')
             ),
             'users_count' => $this->whenCounted('users'),
-            'created_at' => $this->created_at?->toDateTimeString(),
+            'created_at' => $this->created_at?->diffForHumans(),
         ];
     }
 }

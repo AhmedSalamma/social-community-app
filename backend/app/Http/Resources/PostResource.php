@@ -44,7 +44,7 @@ class PostResource extends JsonResource
                     'user_id' => $comment->user_id,
                     'content' => $comment->content,
                     'user_name' => $comment->user?->name,
-                    'created_at'=>$comment->created_at,
+                    'created_at'=>$comment->created_at?->diffForHumans(),
                     'likes_count' => $comment->likes->count(),
                     'disLike_count'=>$comment->dislikes->count(),
                     'parent_id'=>$comment->parent_id
@@ -56,8 +56,8 @@ class PostResource extends JsonResource
 
         'community_name' => $this->community?->name,
 
-        'created_at' => $this->created_at?->toDateTimeString(),
-        'updated_at' => $this->updated_at?->toDateTimeString(),
+        'created_at' => $this->created_at?->diffForHumans(),
+        'updated_at' => $this->updated_at?->diffForHumans(),
     ];
 }
 }

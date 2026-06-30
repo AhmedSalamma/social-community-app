@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PostRequest;
+use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Traits\ResponseTrait;
@@ -80,7 +81,7 @@ class PostController extends Controller
 
     public function getUserPosts()
     {
-        /** @var \App\Models\User $user */
+    
         $user = Auth::user();
 
         $posts = $user->posts()
@@ -95,26 +96,10 @@ class PostController extends Controller
         );
     }
 
-    public function getUserComments()
-    {
-        /** @var \App\Models\User $user */
-        $user = Auth::user();
-
-        $comments = $user->comments()
-            ->with(['dislikes','likes'])
-            ->latest()
-            ->paginate(10);
-
-         return $this->respondSuccess(
-            PostResource::collection($comments),
-            'تم جلب تعليقاتك بنجاح',
-            200
-        );
-    }
 
     public function update(PostRequest $request, int $id)
     {
-        /** @var \App\Models\User $user */
+    
         $user = Auth::user();
         $post = $user->posts()->findOrFail($id);
         $data = $request->validated();
@@ -138,7 +123,7 @@ class PostController extends Controller
 
     public function destroy(int $id)
     {
-        /** @var \App\Models\User $user */
+     
         $user = Auth::user();
         $post = $user->posts()->findOrFail($id);
         $post->delete();

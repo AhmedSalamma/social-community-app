@@ -87,21 +87,21 @@ export default function Post({ post }) {
   if (!post) return null;
 
   return (
-    <div className="mt-4">
-      <article className="relative bg-white rounded-xl border border-slate-200 overflow-hidden mt-4">
+    <div className="mt-3 sm:mt-4">
+      <article className="relative bg-white rounded-xl border border-slate-200 overflow-hidden mt-3 sm:mt-4">
         {/* Header */}
-        <div className="px-4 pt-4 sm:px-6 sm:pt-5 flex items-center justify-between flex-wrap gap-2">
-          <div className="flex items-center gap-2 sm:gap-4 flex-wrap">
-            <span className="text-xs px-2 py-1 rounded-full bg-violet-100 text-violet-700 sm:text-sm">
+        <div className="px-3 pt-3 sm:px-6 sm:pt-5 flex items-center justify-between flex-wrap gap-1.5">
+          <div className="flex items-center gap-1.5 sm:gap-4 flex-wrap">
+            <span className="text-[11px] px-1.5 py-0.5 rounded-full bg-violet-100 text-violet-700 sm:text-sm sm:px-2 sm:py-1">
               <Link to={`/home/community/${post.community_id}`}>
                 {post.community_name}
               </Link>
             </span>
-            <span className="text-xs sm:text-sm text-slate-500 flex gap-1 flex-wrap items-center">
+            <span className="text-[11px] sm:text-sm text-slate-500 flex gap-1 flex-wrap items-center">
               <Link to={`/home/profile/${post.author.id}`}>
                 {post.author.name}
               </Link>
-              •<span>{new Date(post.created_at).toLocaleString("ar-EG")}</span>
+              •<span>{post.created_at}</span>
             </span>
           </div>
 
@@ -119,7 +119,7 @@ export default function Post({ post }) {
               type="button"
               className="w-full px-4 py-2 text-right text-sm hover:bg-slate-100 transition"
             >
-              <Link to={`post/${post.id}/edit`}>
+              <Link to={`/post/${post.id}/edit`}>
                 <FiEdit className="inline-block mr-1" /> تعديل
               </Link>
             </button>
@@ -135,40 +135,42 @@ export default function Post({ post }) {
         )}
 
         {/* Content */}
-        <div className="px-4 py-4 sm:px-6 sm:py-5">
-          <h1 className="text-lg sm:text-xl font-bold text-slate-900 leading-relaxed">
+        <div className="px-3 py-3 sm:px-6 sm:py-5">
+          <h1 className="text-base sm:text-xl font-bold text-slate-900 leading-relaxed">
             <Link to={`/home/post/${post.id}`}>{post.title}</Link>
           </h1>
 
           {post.image && (
             <img
-              className="rounded-md mt-3 w-full"
+              className="rounded-md mt-2 sm:mt-3 w-full max-h-56 sm:max-h-none object-cover"
               src={`${import.meta.env.VITE_API_URL_DOMAIN}/storage/${post.image}`}
               alt="post"
             />
           )}
 
-          <p className="mt-4 text-slate-600 leading-8">{post.content}</p>
+          <p className="mt-2 sm:mt-4 text-sm sm:text-base text-slate-600 leading-6 sm:leading-8">
+            {post.content}
+          </p>
 
-          <div className="flex items-center justify-between gap-4 mt-6 text-slate-600">
-            <div className="flex items-center gap-3 sm:gap-6 flex-wrap">
+          <div className="flex items-center justify-between gap-2 sm:gap-4 mt-3 sm:mt-6 text-slate-600">
+            <div className="flex items-center gap-2 sm:gap-6 flex-wrap">
               <button
                 type="button"
                 onClick={() => makeLike(post.id)}
-                className="cursor-pointer flex items-center gap-2 hover:text-violet-700 transition text-sm sm:text-base"
+                className="cursor-pointer flex items-center gap-1 sm:gap-2 hover:text-violet-700 transition text-xs sm:text-base"
               >
                 <FiChevronUp />({post.likes_count}) أعجبني
               </button>
               <button
                 onClick={() => setOpenComments((prev) => !prev)}
                 type="button"
-                className="cursor-pointer flex items-center gap-2 text-sm sm:text-base"
+                className="cursor-pointer flex items-center gap-1 sm:gap-2 text-xs sm:text-base"
               >
                 <FiMessageSquare /> ({post.comments_count}) تعليقات
               </button>
               <button
                 type="button"
-                className="flex items-center gap-2 text-sm sm:text-base"
+                className="flex items-center gap-1 sm:gap-2 text-xs sm:text-base"
               >
                 <FiShare2 /> ({post.share_count}) مشاركة
               </button>

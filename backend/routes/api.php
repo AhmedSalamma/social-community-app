@@ -23,7 +23,6 @@ Route::controller(PostController::class)->middleware('auth:sanctum')->group(func
     Route::get('posts', 'index');
     Route::get('posts/user', 'getUserPosts');
     Route::get('posts/Popular', 'getPopularPosts');
-    Route::get('posts/user/comments', 'getUserComments');
 
     Route::get('posts/{post}', 'show');
     Route::post('posts/add', 'store');
@@ -57,6 +56,7 @@ Route::controller(CommunityController::class)->middleware('auth:sanctum')->group
 Route::controller(UserController::class)->middleware('auth:sanctum')->group(function () {
     Route::get('user/profile', 'profile');
     Route::post('user/profile', 'update');
+    Route::get('user/comments', 'getUserComments');
 });
 
 Broadcast::routes(['middleware' => ['auth:sanctum']]);

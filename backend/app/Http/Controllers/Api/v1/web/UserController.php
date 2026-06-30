@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1\web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
+use App\Http\Resources\CommentResource;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
@@ -24,6 +25,7 @@ class UserController extends Controller
             200
         );      
     }
+
     public function update(UserRequest $request)
     {
         $user = Auth::user();
@@ -45,4 +47,23 @@ class UserController extends Controller
             200
         );
     }
+
+    public function getUserComments()
+    {
+       
+        $user = Auth::user();
+
+        $comments = $user->comments()
+            ->with(['dislikes','likes'])
+            ->latest()
+            ->paginate(10);
+
+       
+            return CommentResource::collection($comments);
+           
+         
+    }
+
+    
+
 }
