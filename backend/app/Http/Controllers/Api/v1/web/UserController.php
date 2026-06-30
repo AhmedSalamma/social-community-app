@@ -8,6 +8,7 @@ use App\Http\Resources\CommentResource;
 use App\Traits\ResponseTrait;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Resources\UserResource;
+use FileUplode;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -31,9 +32,7 @@ class UserController extends Controller
         $user = Auth::user();
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('users', 'public');
-        }
+       FileUplode::update($request->file('image'),$user->image,'users');
 
         if (isset($data['password'])) {
             $data['password'] = Hash::make($data['password']);

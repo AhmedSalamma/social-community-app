@@ -103,7 +103,7 @@ class PostController extends Controller
         $post = $user->posts()->findOrFail($id);
         $data = $request->validated();
 
-        FileUplode::update($request->file('image'), $post->first()->images,'posts');
+        FileUplode::update($request->file('image'), $post->image,'posts');
 
         $post->update($data);
         $post->load(['user', 'likes', 'comments', 'shares', 'community']);
