@@ -119,7 +119,7 @@ export default function Post({ post }) {
               type="button"
               className="w-full px-4 py-2 text-right text-sm hover:bg-slate-100 transition"
             >
-              <Link to={`/post/${post.id}/edit`}>
+              <Link to={`/home/post/${post.id}/edit`}>
                 <FiEdit className="inline-block mr-1" /> تعديل
               </Link>
             </button>

@@ -8,8 +8,10 @@ use App\Http\Resources\CommentResource;
 use App\Http\Resources\PostResource;
 use App\Models\Post;
 use App\Traits\ResponseTrait;
+use FileUplode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 
 class PostController extends Controller
 {
@@ -17,17 +19,14 @@ class PostController extends Controller
 
     public function index()
     {
-        return PostResource::collection(Post::with(['user', 'likes', 'comments', 'shares', 'community'])->latest()->paginate(8));
+        return PostResource::collection(Post::with(['user', 'likes', 'comments', 'shares', 'community'])->paginate(8));
     }
 
     public function store(PostRequest $request)
     {
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')
-                ->store('posts', 'public');
-        }
+         FileUplode::uplode($request->file('image'),'posts');
 
        
         $user = Auth::user();
@@ -104,10 +103,7 @@ class PostController extends Controller
         $post = $user->posts()->findOrFail($id);
         $data = $request->validated();
 
-        if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')
-                ->store('posts', 'public');
-        }
+        FileUplode::update($request->file('image'), $post->first()->images,'posts');
 
         $post->update($data);
         $post->load(['user', 'likes', 'comments', 'shares', 'community']);
